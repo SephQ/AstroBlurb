@@ -9,9 +9,6 @@ gem "rails", "~> 7.0.2", ">= 7.0.2.3"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
-# Use sqlite3 as the database for Active Record
-gem "sqlite3", "~> 1.4"
-
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 5.0"
 
@@ -37,10 +34,36 @@ gem "jbuilder"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+# gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+# https://stackoverflow.com/questions/23022258/tzinfodatasourcenotfound-error-starting-rails-v4-1-0-server-on-windows
+# gem 'tzinfo-data', platforms: [:x64_mingw, :mingw, :mswin]
+# Udemy Q&A Bogdan answer
+gem 'tzinfo-data', '~> 1.2021', '>= 1.2021.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", require: false
+
+# Add simple forms
+gem 'simple_form'
+
+# Astrology and location gems for accurate birth charting
+gem 'swe4r', '~> 0.0.0'
+gem 'eph_jpl'
+# gem 'ephemeris'   # Just deciding to use an altered version of this class directly, rather than forking and requiring.
+gem 'ruby-ephemeris', '~> 1.1', '>= 1.1.1'
+gem 'zodiac', '~> 0.2.10'
+gem 'chinese_zodiac', '~> 0.0.1'
+gem 'countries', '~> 4.2', '>= 4.2.2'
+gem 'country_select', '~> 6.0'
+# gem 'country_state_select', '~> 3.1', '>= 3.1.5'
+gem 'cities', '~> 0.3.1'
+# gem 'city-state', '~> 0.1.0'
+# Hard one to find hosted https://stackoverflow.com/questions/6732931/how-to-require-the-forked-gem-lib-file-name-conflicts
+# gem 'effe', :git => 'https://github.com/cdcarter/Effe.git', :require => 'effe'
+# gem 'effe', 'master', git: 'https://github.com/cdcarter/Effe'
+# gem 'ephem' # my own version I've now gemified. https://github.com/SephQ/Ephem
+# gem 'ephem', :git => 'https://github.com/SephQ/Ephem.git' # my own version I've now gemified. https://github.com/SephQ/Ephem
+
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -50,7 +73,12 @@ gem "bootsnap", require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  # gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "debug"     # Try this because it's not working with the above
+  # gem "byebug"#, platforms: %i[ mri mingw x64_mingw ]      # Let's just try the old byebug then, like the Udemy video
+
+  # Use sqlite3 as a database for Active Record outside of production (Heroku needs Postgres)
+  gem "sqlite3", "~> 1.4"
 end
 
 group :development do
@@ -69,4 +97,8 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+end
+
+group :production do
+  gem "pg"
 end

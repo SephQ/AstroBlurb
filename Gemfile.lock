@@ -82,17 +82,30 @@ GEM
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
     childprocess (4.1.0)
+    chinese_zodiac (0.0.1)
+    cities (0.3.1)
+      multi_json (~> 1.8)
     concurrent-ruby (1.1.9)
+    countries (4.2.2)
+      i18n_data (~> 0.15.0)
+      sixarm_ruby_unaccent (~> 1.1)
+    country_select (6.1.1)
+      countries (~> 4.2)
+      sort_alphabetical (~> 1.1)
     crass (1.0.6)
     debug (1.4.0)
       irb (>= 1.3.6)
       reline (>= 0.2.7)
     digest (3.1.0)
+    eph_jpl (0.1.2)
     erubi (1.10.0)
+    funtimes (0.4.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
+    i18n_data (0.15.0)
+      simple_po_parser (~> 1.1)
     importmap-rails (1.0.3)
       actionpack (>= 6.0.0)
       railties (>= 6.0.0)
@@ -114,6 +127,7 @@ GEM
     mini_mime (1.1.2)
     minitest (5.15.0)
     msgpack (1.4.5)
+    multi_json (1.15.0)
     net-imap (0.2.3)
       digest
       net-protocol
@@ -132,6 +146,7 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.13.3-x64-mingw-ucrt)
       racc (~> 1.4)
+    pg (1.3.4-x64-mingw-ucrt)
     public_suffix (4.0.6)
     puma (5.6.2)
       nio4r (~> 2.0)
@@ -170,11 +185,19 @@ GEM
     reline (0.3.1)
       io-console (~> 0.5)
     rexml (3.2.5)
+    ruby-ephemeris (1.1.1)
     rubyzip (2.3.2)
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
+    simple_form (5.1.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
+    simple_po_parser (1.1.5)
+    sixarm_ruby_unaccent (1.2.0)
+    sort_alphabetical (1.1.0)
+      unicode_utils (>= 1.2.2)
     sprockets (4.0.3)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -186,6 +209,7 @@ GEM
     stimulus-rails (1.0.4)
       railties (>= 6.0.0)
     strscan (3.0.1)
+    swe4r (0.0.2)
     thor (1.2.1)
     timeout (0.2.0)
     turbo-rails (1.0.1)
@@ -193,6 +217,9 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
+    tzinfo-data (1.2021.5)
+      tzinfo (>= 1.0.0)
+    unicode_utils (1.4.0)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -208,6 +235,9 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.5.4)
+    zodiac (0.2.10)
+      funtimes
+      i18n
 
 PLATFORMS
   x64-mingw-ucrt
@@ -215,19 +245,29 @@ PLATFORMS
 DEPENDENCIES
   bootsnap
   capybara
+  chinese_zodiac (~> 0.0.1)
+  cities (~> 0.3.1)
+  countries (~> 4.2, >= 4.2.2)
+  country_select (~> 6.0)
   debug
+  eph_jpl
   importmap-rails
   jbuilder
+  pg
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.3)
+  ruby-ephemeris (~> 1.1, >= 1.1.1)
   selenium-webdriver
+  simple_form
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
+  swe4r (~> 0.0.0)
   turbo-rails
-  tzinfo-data
+  tzinfo-data (~> 1.2021, >= 1.2021.5)
   web-console
   webdrivers
+  zodiac (~> 0.2.10)
 
 RUBY VERSION
    ruby 3.1.1p18

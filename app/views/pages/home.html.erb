@@ -1,0 +1,67 @@
+ <%# https://stackoverflow.com/questions/34098442/rails-datetime-select-with-time-zone %>
+
+<%# form_with scope: :page do |f| %>
+  <%# datetime_select("page", "birthtime") %>
+  <%# f.submit class: 'btn' %>
+  <%# country_select :country_code %>
+<%# end %>
+
+<%# simple_form_for scope: :page do |f| 
+  f.button :submit
+end %>
+
+<%#= datetime_select "user", "birth_time", default: 30.years.ago, start_year: Time.now.year - 120, end_year: Time.now.year, ampm: true %>
+<%#= country_select "user", "country" %>
+<%#= Time.now.zodiac_sign %>
+
+<%# form_for User.new, url: root_url do |f| %>
+  <%# f.country_select :country_code %>
+<%# end %>
+<%# https://stackoverflow.com/questions/17714738/how-can-i-set-an-instance-variable-with-a-date-select-form-in-rails %>
+<%#= form_tag root_path, method: :get do %>
+<%#= submit_tag("date update") %>
+<%#= label_tag(:q, "Selected Date") %>
+<%#= text_field_tag :q, @date_search, :class => 'datepicker' %>
+<%# end %>
+<%# Try form_with to get rising sign AND birthdate? %>
+<%# form helper methods: %>
+<%# [:color_field, :search_field, :telephone_field, :label, :phone_field, :date_field, :time_field, :datetime_field,
+:datetime_local_field, :month_field, :week_field, :to_model, :url_field, :email_field, :rich_text_area, :number_field,
+:options, :multipart?, :range_field, :field_helpers, :object, :multipart=, :to_partial_path, :index, :field_id, :emitted_hidden_id?,
+:submit, :options=, :multipart, :country_select, :date_select, :object_name, :time_select, :field_helpers=, :field_helpers?,
+:datetime_select, :object_name=, :button, :collection_select, :grouped_collection_select, :fields, :object=, :select,
+:time_zone_select, :weekday_select, :field_name, :fields_for, :text_field, :password_field, :hidden_field, :file_field, :text_area,
+:collection_radio_buttons, :check_box, :collection_check_boxes, :id, :radio_button, :simple_fields_for, :model_name_from_record_or_class, :convert_to_model] %>
+<%= form_with method: :get do |f| %>
+  <%= f.select :rising, zodlist, selected: @rising %>
+  <%= text_field_tag :q, @date_search, placeholder: '1988/04/22.34' %>
+  <%= f.submit "Blurb me!" %>
+<% end %>
+
+<%# https://github.com/komasaru/eph_jpl %>
+<%# (file_path, target number, center number, Julian Days March 18 2016=2457465) %>
+<%# March 18 2016 = 2457565 in Julian Days %>
+<%# planet_list = [11, 10, 1, 2, 4, 5, 6, 7, 8, 9] #Sun, Moon, Merc, Ven, Mars, Jup, ..., Pluto %>
+<%# planets = planet_list.map do |i| %>
+  <%# obj = EphJpl.new("app/lib/linux_p1550p2650.430", i, 3, 2447979.5) %>
+  <p><%#= obj.calc %></p>
+<%# end %>
+
+<%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
+<%# swe_julday(year, month, day, hour) %>
+<%# <p><%= jd = Swe4r::swe_julday(1990, 3, 29, 14) %></p>
+<p><%#= Ephem.chart_bodies %><%= @date_search %></p>
+
+<%# Ditched other options and did ruby-ephemeris https://github.com/isene/ephemeris %>
+<%# today.methods includes [:alt_az, :print, :get_vars, :distf, :body_alt_az, :body_calc, :rts, :sun, :moon, :mercury, :venus, :mars, :jupiter, :saturn, :uranus, :neptune, :body_data, :hms_dms] %>
+<p><% today = Ephemeris.new(@date_search, -33.8688, 151.2093, 11) %></p>
+<%# today.print.split("\n").each do |i| %>
+  <p><%#= i %></p>
+<%# end %>
+<p><%= "#{@rising}-rising" %></p>
+<% planetlist[0..8].map do |planet| %>
+  <p><%= "#{planet.capitalize} in #{ra2sign(eval("today.#{planet}[0]"))} (#{eval("(today.#{planet}[0]%30).to_i")}°#{eval("(today.#{planet}[0]%1*60).round")}')" %></p>
+<% end %>
+<% rising_number = zodlist.index(@rising) %>
+<%= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
+<p><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p>

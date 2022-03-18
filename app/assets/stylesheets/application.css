@@ -13,3 +13,138 @@
  *= require_tree .
  *= require_self
  */
+
+ /* http://meyerweb.com/eric/tools/css/reset/ 2. v2.0 | 20110126
+  License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Mine below */
+ol, ul {
+  /* list-style: none; */
+  margin-left: 28px
+}
+p {
+  color: black;
+  font-size: 16px;
+}
+h1 {
+  color: black;
+  font-size: 38px;
+}
+body {
+  background-color:   pink ;               /* Change pink */
+  color:              #5A5A5A;              /* Default Text Color */
+  padding-bottom:     30px;
+  margin-top:         30px ;
+  margin-bottom:      30px ;
+  border:             2px solid red ;      /* Delete if no border needed */
+  /* Adjust sitewide (#5A5A5A) text color */    
+  color:              black;
+  /* Adjust sitewide (1.3em) text size */    
+  font-size:          1.3em;
+  /* Adjust sitewide (Open Sans) font family */    
+  font-family:        Georgia;
+  /* Adjust sitewide text alignment */
+  text-align:         left; /* left|right|center|justify */
+  
+  }
+/* p {
+  /* margin: 25px 50px 75px 100px;
+  margin-left:        130px ;
+  } */
+.container, header, footer {
+  margin: 0 auto;
+  padding-left: 30px;
+  padding-right: 30px;
+  width: 960px;
+  margin-left: 10px; 
+}
+thead {
+  font-weight: bold
+}
+table, td, th {
+  border:             2px solid black ;      /* Delete if no border needed */
+  padding: 2px 8px 2px 8px;
+}
+.hero {
+  padding: 22px 80px 66px 80px;
+}
+header, h1, h3, h4, h5, h6 {
+  margin-bottom: 22px;
+  /* padding-left:        130px ; */
+}
+/* visited link https://www.w3schools.com/css/css_link.asp */
+a:link, a:visited {
+  /* background-color: #f44336; */
+  /* color: rgb(160, 0, 175); */
+  /* padding: 14px 25px; */
+  /* text-align: center; = baaaaad! */
+  /* text-decoration: none; */
+  display: inline-block;
+}
+
+a:hover, a:active {
+  /* background-color: red; */
+}
+a:visited {
+  color: rgb(249, 85, 255);
+  text-decoration: none;
+  /* background-color: cyan; */
+}
+
+/* Forms and such, objects with id = 'query' */
+#query, label {
+  font-size: 12px;
+}
+
+/* Buttons */
+/* .btn {
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0;
+}
+.btn-alt {
+  border: 1px solid #dfe2e5;
+  padding: 10px 30px;
+} */
