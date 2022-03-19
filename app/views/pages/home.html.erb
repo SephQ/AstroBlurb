@@ -32,36 +32,79 @@ end %>
 :datetime_select, :object_name=, :button, :collection_select, :grouped_collection_select, :fields, :object=, :select,
 :time_zone_select, :weekday_select, :field_name, :fields_for, :text_field, :password_field, :hidden_field, :file_field, :text_area,
 :collection_radio_buttons, :check_box, :collection_check_boxes, :id, :radio_button, :simple_fields_for, :model_name_from_record_or_class, :convert_to_model] %>
-<%= form_with method: :get do |f| %>
-  <%= f.select :rising, zodlist, selected: @rising %>
-  <%= text_field_tag :q, @date_search, placeholder: '1988/04/22.34' %>
-  <%= f.submit "Blurb me!" %>
-<% end %>
+<section class="container">
+  <p><%= 'Enter rising sign (if known), timezone and birthdate (format: yyyy-mm-ddTHH:MM, use either field):'%></p>
+  <%= form_with method: :get do |f| %>
+  <% if false # Comment out below , just a guideline %>
+      <p>
+          <%= form.label :description %><br>
+          <%= form.text_field :description %>
+      </p>
 
-<%# https://github.com/komasaru/eph_jpl %>
-<%# (file_path, target number, center number, Julian Days March 18 2016=2457465) %>
-<%# March 18 2016 = 2457565 in Julian Days %>
-<%# planet_list = [11, 10, 1, 2, 4, 5, 6, 7, 8, 9] #Sun, Moon, Merc, Ven, Mars, Jup, ..., Pluto %>
-<%# planets = planet_list.map do |i| %>
-  <%# obj = EphJpl.new("app/lib/linux_p1550p2650.430", i, 3, 2447979.5) %>
-  <p><%#= obj.calc %></p>
-<%# end %>
+      <p>
+          <%= form.label :due %><br>
+          <%  if @todo.due.nil?
+                  @todo.due = DateTime.now
+              end %>
+          <%= form.datetime_local_field :due, :value => @todo.due %>
+      </p>
 
-<%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
-<%# swe_julday(year, month, day, hour) %>
-<%# <p><%= jd = Swe4r::swe_julday(1990, 3, 29, 14) %></p>
-<p><%#= Ephem.chart_bodies %><%= @date_search %></p>
+      <p>
+          <%= form.submit %>
+      </p>
+  <% end  # End comment section %>
+    <%#= f.label 'Enter rising sign and birthdate (yyyy-mm-ddTHH:MM):'%><%#<br>%>
+    <%= f.label :rising %>
+    <%= f.select :rising, zodlist, selected: @rising %>
+    <%= f.label 'Date of birth' %>
+    <%= text_field_tag :q, @date_search, default: '1983-03-25T21:49' %>
+    <%= f.label :birth %>
+    <%= f.datetime_local_field :birth %><br>
+    <%= f.label :time_zone %>
+    <%= time_zone_select(f, :time_zone, nil, default: @time_zone, priority_zones: tz_hotlist) %>
+    <%#= f.label :country %>
+    <%# ISO 3166-1 country code list here: https://en.wikipedia.org/wiki/ISO_3166-1 %>
+    <%#= f.country_select :country_code, default: "United States", priority_countries: ["US", "AU", "CA", "GB", "ZA", "JP", "CN", "IN", "PS", "FR", "ES", "DE"] %>
+    <%= f.submit "Blurb me!" %>
+  <% end %>
+  <p><%= render plain: [@utc, @date_search.to_datetime.in_time_zone(@time_zone).strftime('%z')] %></p>
 
-<%# Ditched other options and did ruby-ephemeris https://github.com/isene/ephemeris %>
-<%# today.methods includes [:alt_az, :print, :get_vars, :distf, :body_alt_az, :body_calc, :rts, :sun, :moon, :mercury, :venus, :mars, :jupiter, :saturn, :uranus, :neptune, :body_data, :hms_dms] %>
-<p><% today = Ephemeris.new(@date_search, -33.8688, 151.2093, 11) %></p>
-<%# today.print.split("\n").each do |i| %>
-  <p><%#= i %></p>
-<%# end %>
-<p><%= "#{@rising}-rising" %></p>
-<% planetlist[0..8].map do |planet| %>
-  <p><%= "#{planet.capitalize} in #{ra2sign(eval("today.#{planet}[0]"))} (#{eval("(today.#{planet}[0]%30).to_i")}°#{eval("(today.#{planet}[0]%1*60).round")}')" %></p>
-<% end %>
-<% rising_number = zodlist.index(@rising) %>
-<%= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
-<p><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p>
+  <%# https://github.com/komasaru/eph_jpl %>
+  <%# (file_path, target number, center number, Julian Days March 18 2016=2457465) %>
+  <%# March 18 2016 = 2457565 in Julian Days %>
+  <%# planet_list = [11, 10, 1, 2, 4, 5, 6, 7, 8, 9] #Sun, Moon, Merc, Ven, Mars, Jup, ..., Pluto %>
+  <%# planets = planet_list.map do |i| %>
+    <%# obj = EphJpl.new("app/lib/linux_p1550p2650.430", i, 3, 2447979.5) %>
+    <p><%#= obj.calc %></p>
+  <%# end %>
+
+  <%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
+  <%# swe_julday(year, month, day, hour) %>
+  <%# <p><%= jd = Swe4r::swe_julday(1990, 3, 29, 14) %></p>
+  <p><%#= Ephem.chart_bodies %><%= [@date_search] %></p>
+
+  <%# Ditched other options and did ruby-ephemeris https://github.com/isene/ephemeris %>
+  <%# today.methods includes [:alt_az, :print, :get_vars, :distf, :body_alt_az, :body_calc, :rts, :sun, :moon, :mercury, :venus, :mars, :jupiter, :saturn, :uranus, :neptune, :body_data, :hms_dms] %>
+  <p><% today = Ephemeris.new(@date_search, -33.8651, 151.2099, @utc) %></p>
+  <%# today.print.split("\n").each do |i| %>
+    <p><%#= i %></p>
+  <%# end %>
+
+  <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth] %>
+    <%# User didn't know their rising sign but submitted a form, calculate it for them (ROUGHLY)
+    # Global average sunrise time ~ 6:20 am (https://www.timeanddate.com/sun/@8469718), assume rising sign is equally spaced from sun sign in zodiac as it is in hours relative to a full day. %>
+    <% sun_ra = today.sun[0] %>
+    <% birth_hour = eval(@date_search[/(?<=T)\d\d:\d\d/].sub(?:,'+1.0/60*')) %>
+    <% hours_past_rise = birth_hour - 6.33 %>
+    <% rising_ra = (sun_ra + hours_past_rise * 15 ) % 360 # 2 hours is 30° %>
+    <% @rising = ra2sign(rising_ra) %>
+  <% end %>
+  <p><%= "#{@rising}-rising" %></p>
+  <% planetlist[0..8].map do |planet| %>
+    <% ra = eval("today.#{planet}")[0] %>
+    <p><%= "#{planet.capitalize} in #{ra2sign(ra)} (#{(ra%30).to_i}°#{(ra%1*60).round}')" %></p>
+  <% end %>
+  <% rising_number = zodlist.index(@rising) %>
+  <%= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
+  <p><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p>
+</section>

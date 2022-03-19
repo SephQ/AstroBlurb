@@ -97,8 +97,17 @@ body {
   margin: 0 auto;
   padding-left: 30px;
   padding-right: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
   width: 960px;
   margin-left: 10px; 
+}
+.body {
+  padding-left: 40px;
+  padding-right: 40px;
+  /* width: 960px;
+  margin-left: 10px;  */
+
 }
 thead {
   font-weight: bold

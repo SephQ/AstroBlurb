@@ -106,11 +106,15 @@ class Ephemeris
   end
 
   def hms_dms(ra, dec) # Show HMS & DMS
-    h, m, s = (ra/15).hms
-    ra_hms  = "#{h.to_s.rjust(2)}h #{m.to_s.rjust(2)}m #{s.to_s.rjust(2)}s"
+    # SephQ: I hate this hms format, so just hijacking and making it show ra same way as dec.
+    # h, m, s = (ra/15).hms
+    # ra_hms  = "#{h.to_s.rjust(2)}h #{m.to_s.rjust(2)}m #{s.to_s.rjust(2)}s"
+    h, m, s = ra.hms
+    ra_hms  = "#{h.to_s.rjust(2)}° #{m.to_s.rjust(2)}'"
     d, m, s = dec.hms
     dec_dms = "#{d.to_s.rjust(3)}° #{m.to_s.rjust(2)}´ #{s.to_s.rjust(2)}˝"
     return ra_hms, dec_dms
+    # return ra.to_s+'     ', dec_dms
   end
 
   def alt_az(ra, dec, time)
@@ -264,12 +268,12 @@ class Ephemeris
         plon  +=  0.035 * Math.sin((m_S - 3*m_U + 33).deg)
         plon  += -0.015 * Math.sin((m_J - m_U + 20).deg)
       when "pluto"
-        # guessing from http://yorick.sourceforge.net/html_i/kepler_i.php
+        # guessing from http://yorick.sourceforge.net/html_i/kepler_i.php and http://www.stjarnhimlen.se/comp/ppcomp.html#5
         #Cannot get pluto to stop being in Gemini during the 90's using the below, no matter what I change...
         # Abandoning Ephemeris as a whole now, since Pluto and other bodies are needing and this is too limited.
         s = (50.03+0.033459652*@d).deg;
         p = (238.95+0.003968789*@d).deg;
-        lon += (238.9508 + 0.00400703*@d+
+        plon += (238.9508 + 0.00400703*@d+
               -19.799*Math.sin(p)   +19.848*Math.cos(p)+
               +0.897*Math.sin(2.*p) -4.956*Math.cos(2.*p)+
               +0.610*Math.sin(3.*p) +1.211*Math.cos(3.*p)+
@@ -277,7 +281,7 @@ class Ephemeris
               +0.128*Math.sin(5.*p) -0.034*Math.cos(5.*p)+
               -0.038*Math.sin(6.*p) +0.031*Math.cos(6.*p)+
               +0.020*Math.sin(s-p)  -0.010*Math.cos(s-p)).deg;
-        lat += (-3.9082+
+        plat += (-3.9082+
               -5.453*Math.sin(p)   -14.975*Math.cos(p)+
               +3.527*Math.sin(2.*p) +1.673*Math.cos(2.*p)+
               -1.051*Math.sin(3.*p) +0.328*Math.cos(3.*p)+
@@ -285,7 +289,7 @@ class Ephemeris
               +0.019*Math.sin(5.*p) +0.100*Math.cos(5.*p)+
               -0.031*Math.sin(6.*p) -0.026*Math.cos(6.*p)+
               +0.011*Math.cos(s-p)).deg;
-        r_b += (40.72+
+        pdist += (40.72+
             +6.68*Math.sin(p) +6.90*Math.cos(p)+
             -1.18*Math.sin(2.*p) -0.03*Math.cos(2.*p)+
             +0.15*Math.sin(3.*p) -0.14*Math.cos(3.*p));
@@ -330,7 +334,14 @@ class Ephemeris
     @tz    = tz
     y      = date[0..3].to_i
     m      = date[5..6].to_i
-    d      = date[8..].to_f       # updated from [8..9].to_i, to allow for float days (will include actual time eventually)
+    d      = date[8..]      # updated from [8..9].to_i, to allow for float days (will include actual time eventually)
+    if d[/T/]
+      # yyyy-mm-ddTHH:MM format assumed
+      h_adj = d[/\d\d(?=:)/].to_i + d[/(?<=:)\d\d/].to_f/60
+      d = d.to_i + h_adj/24
+    else  # No time formatting included, could be integer or float (e.g. 1981-04-12.234)
+      d = d.to_f
+    end
     # Was simple formula below, but now updating to cover whole Gregorian calendar from: https://www.stjarnhimlen.se/comp/ppcomp.html (note these are all integer division)
     # @d     = 367*y - 7*(y + (m+9)/12) / 4 + 275*m/9 + d - 730530
     @d     = 367*y - 7*(y + (m+9)/12) / 4 - 3*((y + (m-9)/7)/100 + 1)/4 + 275*m/9 + d - 730515
