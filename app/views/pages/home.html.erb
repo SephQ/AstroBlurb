@@ -33,7 +33,8 @@ end %>
 :time_zone_select, :weekday_select, :field_name, :fields_for, :text_field, :password_field, :hidden_field, :file_field, :text_area,
 :collection_radio_buttons, :check_box, :collection_check_boxes, :id, :radio_button, :simple_fields_for, :model_name_from_record_or_class, :convert_to_model] %>
 <section class="container">
-  <p><%= 'Enter rising sign (if known), timezone and birthdate (format: yyyy-mm-ddTHH:MM, use either field):'%></p>
+  <p><h1>Astrology Blurb Generator</h1></p>
+  <p><%= 'Enter rising sign (if known), birth time and timezone:' %></p>
   <%= form_with method: :get do |f| %>
   <% if false # Comment out below , just a guideline %>
       <p>
@@ -56,22 +57,31 @@ end %>
     <%#= f.label 'Enter rising sign and birthdate (yyyy-mm-ddTHH:MM):'%><%#<br>%>
     <%= f.label :rising %>
     <%= f.select :rising, zodlist, selected: @rising %>
-    <%= f.label 'Date of birth' %>
-    <%= text_field_tag :q, @date_search, default: '1983-03-25T21:49' %>
-    <%= f.label :birth %>
-    <%= f.datetime_local_field :birth %><br>
+    <%#= f.label 'Date of birth' %>
+    <%#= text_field_tag :q, @date_search, default: '1983-03-25T21:49' %>
+    <%= f.label 'Birth Time' %>
+    <%= f.datetime_local_field :birth_time, value: @date_search %><br>
     <%= f.label :time_zone %>
-    <%= time_zone_select(f, :time_zone, nil, default: @time_zone, priority_zones: tz_hotlist) %>
+    <%= f.time_zone_select(:time_zone, nil, default: @time_zone, priority_zones: tz_hotlist) %>
     <%#= f.label :country %>
     <%# ISO 3166-1 country code list here: https://en.wikipedia.org/wiki/ISO_3166-1 %>
     <%#= f.country_select :country_code, default: "United States", priority_countries: ["US", "AU", "CA", "GB", "ZA", "JP", "CN", "IN", "PS", "FR", "ES", "DE"] %>
     <%= f.submit "Blurb me!" %>
   <% end %>
-  <p><%= render plain: [@utc, @date_search.to_datetime.in_time_zone(@time_zone).strftime('%z')] %></p>
-
-  <%# https://github.com/komasaru/eph_jpl %>
-  <%# (file_path, target number, center number, Julian Days March 18 2016=2457465) %>
-  <%# March 18 2016 = 2457565 in Julian Days %>
+  <% Swe4r::swe_set_ephe_path('') %>
+  <%# Swe4r::t_swe_set_jpl_file("app/lib/linux_p1550p2650.430") - can't use this function with Swe4r 0.0.0 %>
+  <% Swe4r::swe_set_topo(-33.8651, 151.2099, 100) %>
+  
+  <% if false %>
+    <p><%= render plain: params %></p>
+    <p><%= render plain: [swe_houses(@julday,-33.8651, 151.2099)[1],@date_search,@julday,Swe4r::swe_houses(@julday,-33.8651, 151.2099,'Placidus'[0].ord)[1],swe_calc_ut(julday(@date_search),'Sun'),Swe4r::swe_calc_ut(2447980.11440, Swe4r::SE_SUN, Swe4r::SEFLG_MOSEPH|Swe4r::SEFLG_SPEED|Swe4r::SEFLG_EQUATORIAL), @utc, @date_search.to_datetime.in_time_zone(@time_zone).strftime('%z')] %></p>
+  <% end %>
+  <%# https://github.com/komasaru/eph_jpl 
+    (file_path, target number, center number, Julian Days) 
+    March 18 2016 = 2457565 in Julian Days.
+    Get error when I use this with the .430t file renamed as .430 (can't get the .430)
+    undefined method `[]' for nil:NilClass       vvv
+            val += @bin[:coeffs][i_coef][idx_sub][i][j] * ary_p[j]  %>
   <%# planet_list = [11, 10, 1, 2, 4, 5, 6, 7, 8, 9] #Sun, Moon, Merc, Ven, Mars, Jup, ..., Pluto %>
   <%# planets = planet_list.map do |i| %>
     <%# obj = EphJpl.new("app/lib/linux_p1550p2650.430", i, 3, 2447979.5) %>
@@ -81,30 +91,43 @@ end %>
   <%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
   <%# swe_julday(year, month, day, hour) %>
   <%# <p><%= jd = Swe4r::swe_julday(1990, 3, 29, 14) %></p>
+<% if false %>
   <p><%#= Ephem.chart_bodies %><%= [@date_search] %></p>
-
+<% end %>
   <%# Ditched other options and did ruby-ephemeris https://github.com/isene/ephemeris %>
   <%# today.methods includes [:alt_az, :print, :get_vars, :distf, :body_alt_az, :body_calc, :rts, :sun, :moon, :mercury, :venus, :mars, :jupiter, :saturn, :uranus, :neptune, :body_data, :hms_dms] %>
   <p><% today = Ephemeris.new(@date_search, -33.8651, 151.2099, @utc) %></p>
   <%# today.print.split("\n").each do |i| %>
     <p><%#= i %></p>
   <%# end %>
-
-  <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth] %>
+  <% rising_ra = 0 %>
+  <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time] %>
     <%# User didn't know their rising sign but submitted a form, calculate it for them (ROUGHLY)
     # Global average sunrise time ~ 6:20 am (https://www.timeanddate.com/sun/@8469718), assume rising sign is equally spaced from sun sign in zodiac as it is in hours relative to a full day. %>
-    <% sun_ra = today.sun[0] %>
-    <% birth_hour = eval(@date_search[/(?<=T)\d\d:\d\d/].sub(?:,'+1.0/60*')) %>
-    <% hours_past_rise = birth_hour - 6.33 %>
-    <% rising_ra = (sun_ra + hours_past_rise * 15 ) % 360 # 2 hours is 30° %>
+    <%# sun_ra = today.sun[0] # Ephemeris.rb method - deprecated %>
+    <% sun_ra = swe_calc_ut(@julday, 'Sun')[0] %>
+    <%# birth_hour = eval(@date_search[/(?<=T)\d\d:\d\d/].sub(?:,'+1.0/60*')) %>
+    <%# hours_past_rise = birth_hour - 6.33 %>
+    <%# rising_ra = (sun_ra + hours_past_rise * 15 ) % 360 # 2 hours is 30° %>
+    <% rising_ra = swe_houses(@julday,-33.8651, 151.2099)[1] # swe_houses first element is always 0, next is Asc ra. %>
     <% @rising = ra2sign(rising_ra) %>
   <% end %>
-  <p><%= "#{@rising}-rising" %></p>
-  <% planetlist[0..8].map do |planet| %>
-    <% ra = eval("today.#{planet}")[0] %>
-    <p><%= "#{planet.capitalize} in #{ra2sign(ra)} (#{(ra%30).to_i}°#{(ra%1*60).round}')" %></p>
+  <% p @julday, '<jd rra>', rising_ra, @rising, swe_houses(@julday,-33.8651, 151.2099)[1] %>
+  <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
+    <p><%= "#{@rising}-rising (#{(rising_ra%30).to_i}°#{(rising_ra%1*60).round}')" %></p>
+  <% end %>
+  <% pdata = {} %>
+  <% planetlist[0..9].map do |planet| %>
+    <%# ra = eval("today.#{planet}")[0]  # Ephemeris.rb method - deprecated  %>
+    <% planet_data = swe_calc_ut(@julday, planet) %>
+    <% ra = planet_data[0] %>
+    <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
+      <p><%= "#{planet.capitalize} in #{ra2sign(ra)} (#{(ra%30).to_i}°#{(ra%1*60).round}')" %></p>
+    <% end %>
+    <% pdata[planet] = planet_data %><%# Hash each planet to its planetary position data %>
   <% end %>
   <% rising_number = zodlist.index(@rising) %>
-  <%= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
+  <%= blurb(pdata['sun'][0],pdata['moon'][0],pdata['mercury'][0],pdata['venus'][0],pdata['mars'][0],rising_number) %>
+  <%#= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
   <p><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p>
 </section>
