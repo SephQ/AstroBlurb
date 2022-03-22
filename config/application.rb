@@ -14,8 +14,8 @@ module AstroBlurb
     config.load_defaults 7.0
 
     # Zeitwerk auto-loader is having issues on Heroku: `on_file_autoloaded': expected file /app/app/models/pages.rb to define constant Pages
-    # Swapping to classic for now:
-    config.autoloader = :classic
+    # Swapping to classic for now: <- this failed, so removing and just obeying Zeitwerk's rules now.
+    # config.autoloader = :classic
 
     # Configuration for the application, engines, and railties goes here.
     #
