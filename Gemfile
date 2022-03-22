@@ -47,7 +47,7 @@ gem "bootsnap", require: false
 gem 'simple_form'
 
 # Astrology and location gems for accurate birth charting
-gem 'swe4r', '~> 0.0.0'
+gem 'swe4r', '0.0.0'  # '~> 0.0.0' (this leads to 0.0.2 being installed which has bad native extensions -> error)
 gem 'eph_jpl'
 # gem 'ephemeris'   # Just deciding to use an altered version of this class directly, rather than forking and requiring.
 gem 'ruby-ephemeris', '~> 1.1', '>= 1.1.1'
