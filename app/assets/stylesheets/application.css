@@ -88,6 +88,9 @@ body {
   /* Adjust sitewide text alignment */
   text-align:         left; /* left|right|center|justify */
   
+  /* Mobile devices display terribly with border cutting through container if I don't force min-width */
+  min-width:          960px ;
+  
   }
 /* p {
   /* margin: 25px 50px 75px 100px;
