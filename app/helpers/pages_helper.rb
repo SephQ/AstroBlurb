@@ -9,7 +9,7 @@ module PagesHelper
   end
   def blurb(sun,moon,mercury,venus,mars,ascnum)
     # Inputs are the right-ascension values of each of the named planetary bodies
-    blurb = ['I am ','',' but my emotions are rather ','','. I think in a ','',' way, but express my energy in a ','',' way. In love, I seek ','','. I take on the role of ','','.']
+    text = ['I am ','',' but my emotions are rather ','','. I think in a ','',' way, but express my energy in a ','',' way. In love, I seek ','','. I take on the role of ','','.']
     # out = ["Sun in "+ra2sign(sun)+", Moon in "+ra2sign(moon)+", Mercury in "+ra2sign(mercury)+", Venus in "+ra2sign(venus)+" and Mars in "+ra2sign(mars)]
     plist = [ra2num(sun),ra2num(moon),ra2num(mercury),ra2num(mars),ra2num(venus),ascnum]
     blbans = [['an initiator','a guardian','a wanderer','a psychic','a warrior','a mastermind','a peacemaker','a detective','an explorer','an entrepreneur','a visionary','a dreamer'],
@@ -20,9 +20,21 @@ module PagesHelper
     ['the pioneer','the owner','the messenger','the nurturer','the protector','the organizer','the aesthete','the mystic','the comedian','the old soul','the outlaw','the creator','the {...}']]
     (0..5).each do |i|
       planet = plist[i]
-      blurb[i*2+1] = blbans[i][planet]
+      text[i*2+1] = blbans[i][planet]
     end
-    blurb.join.gsub(/(?<= a)(?= [aeiou])/,'n')
+    text.join.gsub(/(?<= a)(?= [aeiou])/,'n')
+  end
+  def roast(moon,sun,venus,mars)
+    # Inputs are the right-ascension values of each of the named planetary bodies
+    text = "You're just a@@ @@ that feels like it's a@@ @@."
+    plist = [ra2num(moon),ra2num(sun),ra2num(venus),ra2num(mars)]
+    wlist = [ [' hyperactive',' relentless',' talkative',' loving',' dramatic',' dedicated',' charming','n intense','n adventurous',' hard-working','n erratic','n easy-going'],
+      ['ram','bull','bee','hermit crab','lion','lamb','human','scorpion','stallion','goat','alien','carp'],
+      [' passionate',' dependable',' popular','n empathic',' famous','n innocent',' posh',' pioneering',' ',' successful',' revolutionary',' tortured'],
+      ['hero','bull','comedian','child','celebrity','martyr','expert','detective','philosopher','CEO','prophet','healer'] ]
+    words = plist.zip(wlist).map{|i,j| j[i] }
+    out = text.gsub(/@@/){ words.shift }   # Replace each '@@' in the text with the words from the word list in order.
+    out.gsub(/(?<= a)(?= [aeiou])/,'n')
   end
   def zodlist
     %w[Aries Taurus Gemini Cancer Leo Virgo Libra Scorpio Sagittarius Capricorn Aquarius Pisces Unknown]

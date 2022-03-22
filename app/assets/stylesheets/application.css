@@ -110,7 +110,11 @@ body {
   padding-right: 40px;
   /* width: 960px;
   margin-left: 10px;  */
-
+}
+.blurb { /* blurb outputs */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 18px;
 }
 thead {
   font-weight: bold
@@ -140,7 +144,7 @@ a:hover, a:active {
   /* background-color: red; */
 }
 a:visited {
-  color: rgb(249, 85, 255);
+  /* color: rgb(249, 85, 255); */
   text-decoration: none;
   /* background-color: cyan; */
 }

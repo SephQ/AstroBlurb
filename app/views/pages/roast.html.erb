@@ -1,0 +1,42 @@
+<section class="container">
+  <p><h1>Astrology Roast Generator</h1></p>
+  <p><%= 'Enter rising sign (if known), birth time and time zone:' %></p>
+  <%= form_with method: :get do |f| %>
+    <%= f.label :rising %>
+    <%= f.select :rising, zodlist, selected: @rising %>
+    <%= f.label 'Birth Time' %>
+    <%= f.datetime_local_field :birth_time, value: @date_search %><br>
+    <%= f.label :time_zone %>
+    <%= f.time_zone_select(:time_zone, nil, default: @time_zone, priority_zones: tz_hotlist) %>
+    <%= f.submit "Roast me!" %>
+  <% end %>
+  <% Swe4r::swe_set_ephe_path('') %>
+  <% p ['lat,long,,swesettop',@lat,@long], Swe4r::swe_set_topo(@lat, @long, 100) %>
+  <%# Swe4r::t_swe_set_jpl_file("app/lib/linux_p1550p2650.430") - can't use this function with Swe4r 0.0.0 %>
+  <% Swe4r::swe_set_topo(@lat, @long, 100) %>
+ 
+  <%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
+  <% rising_ra = 0 %>
+  <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time] %>
+    <%# User didn't know their rising sign but submitted a form, calculate it for them %>
+    <% sun_ra = swe_calc_ut(@julday, 'Sun')[0] %>
+    <% rising_ra = swe_houses(@julday,@lat, @long)[1] # swe_houses first element is always 0, next is Asc ra. %>
+    <% @rising = ra2sign(rising_ra) %>
+  <% end %>
+  <% p @julday, '<jd rra>', rising_ra, @rising, swe_houses(@julday,@lat, @long)[1] %>
+  <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
+    <p><%= "#{@rising}-rising (#{(rising_ra%30).to_i}°#{(rising_ra%1*60).round}')" %></p>
+  <% end %>
+  <% pdata = {} %>
+  <% planetlist[0..9].map do |planet| %>
+    <% planet_data = swe_calc_ut(@julday, planet) %>
+    <% ra = planet_data[0] %>
+    <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
+      <p><%= "#{planet.capitalize} in #{ra2sign(ra)} (#{(ra%30).to_i}°#{(ra%1*60).round}')" %></p>
+    <% end %>
+    <% pdata[planet] = planet_data %><%# Hash each planet to its planetary position data %>
+  <% end %>
+  <% rising_number = zodlist.index(@rising) %>  
+  <p class="blurb"><%= roast(pdata['moon'][0],pdata['sun'][0],pdata['venus'][0],pdata['mars'][0]) %></p>
+  <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+</section>
