@@ -47,16 +47,16 @@ gem "bootsnap", require: false
 # gem 'simple_form'
 
 # Astrology and location gems for accurate birth charting
-gem 'swe4r', '0.0.0'  # '~> 0.0.0' (this leads to 0.0.2 being installed which has bad native extensions -> error)
-gem 'eph_jpl'
+gem 'swe4r', '0.0.2'  # '~> 0.0.0' (this leads to 0.0.2 being installed which has bad native extensions -> error)
+# gem 'eph_jpl'
 # gem 'ephemeris'   # Just deciding to use an altered version of this class directly, rather than forking and requiring.
 gem 'ruby-ephemeris', '~> 1.1', '>= 1.1.1'
-gem 'zodiac', '~> 0.2.10'
+# gem 'zodiac', '~> 0.2.10'
 gem 'chinese_zodiac', '~> 0.0.1'
-gem 'countries', '~> 4.2', '>= 4.2.2'
-gem 'country_select', '~> 6.0'
+# gem 'countries', '~> 4.2', '>= 4.2.2'
+# gem 'country_select', '~> 6.0'
 # gem 'country_state_select', '~> 3.1', '>= 3.1.5'
-gem 'cities', '~> 0.3.1'
+# gem 'cities', '~> 0.3.1'
 # gem 'city-state', '~> 0.1.0'
 # Hard one to find hosted https://stackoverflow.com/questions/6732931/how-to-require-the-forked-gem-lib-file-name-conflicts
 # gem 'effe', :git => 'https://github.com/cdcarter/Effe.git', :require => 'effe'
