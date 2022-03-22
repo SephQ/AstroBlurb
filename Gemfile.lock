@@ -191,9 +191,6 @@ GEM
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2)
-    simple_form (5.1.0)
-      actionpack (>= 5.2)
-      activemodel (>= 5.2)
     simple_po_parser (1.1.5)
     sixarm_ruby_unaccent (1.2.0)
     sort_alphabetical (1.1.0)
@@ -258,7 +255,6 @@ DEPENDENCIES
   rails (~> 7.0.2, >= 7.0.2.3)
   ruby-ephemeris (~> 1.1, >= 1.1.1)
   selenium-webdriver
-  simple_form
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails

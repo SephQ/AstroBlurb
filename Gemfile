@@ -44,7 +44,7 @@ gem 'tzinfo-data', '~> 1.2021', '>= 1.2021.5'
 gem "bootsnap", require: false
 
 # Add simple forms
-gem 'simple_form'
+# gem 'simple_form'
 
 # Astrology and location gems for accurate birth charting
 gem 'swe4r', '0.0.0'  # '~> 0.0.0' (this leads to 0.0.2 being installed which has bad native extensions -> error)
