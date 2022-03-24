@@ -233,7 +233,7 @@ DEPENDENCIES
   sprockets-rails
   sqlite3 (~> 1.4)
   stimulus-rails
-  swe4r (= 0.0.2)
+  swe4r
   turbo-rails
   tzinfo-data (~> 1.2021, >= 1.2021.5)
   web-console
