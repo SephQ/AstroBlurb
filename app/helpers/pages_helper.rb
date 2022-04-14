@@ -42,6 +42,7 @@ module PagesHelper
   def planetlist
     %w[sun moon mercury venus mars jupiter saturn uranus neptune pluto]
   end
+  # If we gauge personality more literally than physically then gender can feel a lot less binary.
   def tz_hotlist
     # Some of the priority timezones
     ["Pacific Time (US & Canada)", "Eastern Time (US & Canada)", "Paris", "London", "Pretoria", "Melbourne", "Sydney", "Tokyo", "Beijing", "Seoul"]
@@ -60,7 +61,7 @@ module PagesHelper
     planet
   end
   def swe_calc_ut(julian_day, planet)
-    Swe4r::swe_calc_ut(julian_day, swe_name(planet), Swe4r::SEFLG_SWIEPH|Swe4r::SEFLG_SPEED|Swe4r::SEFLG_EQUATORIAL)#|Swe4r::SEFLG_TOPOCTR - Swe4r::SEFLG_MOSEPH instead of SEFLG_SWIEPH
+    Swe4r::swe_calc_ut(julian_day, swe_name(planet), Swe4r::SEFLG_SWIEPH)#|Swe4r::SEFLG_TOPOCTR - Swe4r::SEFLG_MOSEPH instead of SEFLG_SWIEPH
   end
   def julday(date)
     y, m, d = date.split(/[-\/]/)
@@ -76,7 +77,7 @@ module PagesHelper
     h -= @utc   # Adjust for UTC offset in timezone, make the time UT.
     Swe4r::swe_julday(y, m, d.to_i, h)
   end
-  def swe_houses(julian_day, lat=-33.8, long=151.2099, hsys='Placidus'[0].ord)
+  def swe_houses(julian_day, lat, long, hsys='Placidus'[0].ord)
     Swe4r::swe_houses(julian_day, lat, long, hsys)
   end
 end

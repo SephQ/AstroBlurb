@@ -13,7 +13,7 @@
   <% Swe4r::swe_set_ephe_path('') %>
   <% p ['lat,long,,swesettop',@lat,@long], Swe4r::swe_set_topo(@lat, @long, 100) %>
   <%# Swe4r::swe_set_jpl_file("app/lib/linux_p1550p2650.430") %><%# - can't use this function with Swe4r :( %>
-  <% Swe4r::swe_set_topo(@lat, @long, 100) %>
+  <%# Swe4r::swe_set_topo(@lat, @long, 100) %>
  
   <%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
   <% rising_ra = 0 %>
