@@ -16,27 +16,29 @@
   <%# Swe4r::swe_set_topo(@lat, @long, 100) %>
  
   <%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
-  <% rising_ra = 0 %>
+  <% rising_lon = 0 %>
   <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time] %>
     <%# User didn't know their rising sign but submitted a form, calculate it for them %>
-    <% sun_ra = swe_calc_ut(@julday, 'Sun')[0] %>
-    <% rising_ra = swe_houses(@julday,@lat, @long)[1] # swe_houses first element is always 0, next is Asc ra. %>
-    <% @rising = ra2sign(rising_ra) %>
+    <% sun_lon = swe_calc_ut(@julday, 'Sun')[0] %>
+    <% rising_lon = swe_houses(@julday,@lat, @long)[1] # swe_houses first element is always 0, next is Asc lon. %>
+    <% @rising = lon2sign(rising_lon) %>
   <% end %>
-  <% p @julday, '<jd rra>', rising_ra, @rising, swe_houses(@julday,@lat, @long)[1] %>
+  <% p @julday, '<jd rlon>', rising_lon, @rising, swe_houses(@julday,@lat, @long)[1] %>
   <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
-    <p><%= "#{@rising}-rising (#{(rising_ra%30).to_i}°#{(rising_ra%1*60).round}')" %></p>
+    <p><%= "#{@rising}-rising (#{(rising_lon%30).to_i}°#{(rising_lon%1*60).round}')" %></p>
   <% end %>
   <% pdata = {} %>
   <% planetlist[0..9].map do |planet| %>
     <% planet_data = swe_calc_ut(@julday, planet) %>
-    <% ra = planet_data[0] %>
+    <% lon = planet_data[0] %>
     <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
-      <p><%= "#{planet.capitalize} in #{ra2sign(ra)} (#{(ra%30).to_i}°#{(ra%1*60).round}')" %></p>
+      <p><%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')" %></p>
     <% end %>
     <% pdata[planet] = planet_data %><%# Hash each planet to its planetary position data %>
   <% end %>
-  <% rising_number = zodlist.index(@rising) %>  
+  <% rising_number = zodlist.index(@rising) %>
+  </br>
   <p class="blurb"><%= roast(pdata['moon'][0],pdata['sun'][0],pdata['venus'][0],pdata['mars'][0]) %></p>
   <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+  <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
 </section>

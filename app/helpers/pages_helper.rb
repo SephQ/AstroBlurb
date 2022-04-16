@@ -1,17 +1,17 @@
 module PagesHelper
-  def ra2sign(ra)
-    # Convert right-ascension values to zodiac signs
-    %w[Aries Taurus Gemini Cancer Leo Virgo Libra Scorpio Sagittarius Capricorn Aquarius Pisces][ (ra/30).to_i ]
+  def lon2sign(lon)
+    # Convert ecliptic longitude values to zodiac signs
+    %w[Aries Taurus Gemini Cancer Leo Virgo Libra Scorpio Sagittarius Capricorn Aquarius Pisces][ (lon/30).to_i ]
   end
-  def ra2num(ra)
-    # Convert right-ascension values to zodiac numbers Aries=0, Pisces=11.
-    (ra/30).to_i
+  def lon2num(lon)
+    # Convert ecliptic longitude values to zodiac numbers Aries=0, Pisces=11.
+    (lon/30).to_i
   end
   def blurb(sun,moon,mercury,venus,mars,ascnum)
-    # Inputs are the right-ascension values of each of the named planetary bodies
+    # Inputs are the ecliptic longitude values of each of the named planetary bodies
     text = ['I am ','',' but my emotions are rather ','','. I think in a ','',' way, but express my energy in a ','',' way. In love, I seek ','','. I take on the role of ','','.']
     # out = ["Sun in "+ra2sign(sun)+", Moon in "+ra2sign(moon)+", Mercury in "+ra2sign(mercury)+", Venus in "+ra2sign(venus)+" and Mars in "+ra2sign(mars)]
-    plist = [ra2num(sun),ra2num(moon),ra2num(mercury),ra2num(mars),ra2num(venus),ascnum]
+    plist = [lon2num(sun),lon2num(moon),lon2num(mercury),lon2num(mars),lon2num(venus),ascnum]
     blbans = [['an initiator','a guardian','a wanderer','a psychic','a warrior','a mastermind','a peacemaker','a detective','an explorer','an entrepreneur','a visionary','a dreamer'],
     ['intense','enduring','sparkling','deep','vibrant','composed','whimsical','overwhelming','vivid','guarded','unpredictable','extreme'],
     ['direct','practical','lighthearted','intuitive','dynamic','fruitful','artistical','complex','curious','purposeful','logical','vague'],
@@ -25,9 +25,9 @@ module PagesHelper
     text.join.gsub(/(?<= a)(?= [aeiou])/,'n')
   end
   def roast(moon,sun,venus,mars)
-    # Inputs are the right-ascension values of each of the named planetary bodies
+    # Inputs are the ecliptic longitude values of each of the named planetary bodies
     text = "You're just a@@ @@ that feels like it's a@@ @@."
-    plist = [ra2num(moon),ra2num(sun),ra2num(venus),ra2num(mars)]
+    plist = [lon2num(moon),lon2num(sun),lon2num(venus),lon2num(mars)]
     wlist = [ [' hyperactive',' relentless',' talkative',' loving',' dramatic',' dedicated',' charming','n intense','n adventurous',' hard-working','n erratic','n easy-going'],
       ['ram','bull','bee','hermit crab','lion','lamb','human','scorpion','stallion','goat','alien','carp'],
       [' passionate',' dependable',' popular','n empathic',' famous','n innocent',' posh',' pioneering',' ',' successful',' revolutionary',' tortured'],
@@ -38,6 +38,9 @@ module PagesHelper
   end
   def zodlist
     %w[Aries Taurus Gemini Cancer Leo Virgo Libra Scorpio Sagittarius Capricorn Aquarius Pisces Unknown]
+  end
+  def eastlist
+    %w[Rat Ox Tiger Rabbit Dragon Snake Horse Goat Monkey Rooster Dog Pig Unknown]
   end
   def planetlist
     %w[sun moon mercury venus mars jupiter saturn uranus neptune pluto]
@@ -80,4 +83,46 @@ module PagesHelper
   def swe_houses(julian_day, lat, long, hsys='Placidus'[0].ord)
     Swe4r::swe_houses(julian_day, lat, long, hsys)
   end
+  def eastern(date)
+    ChineseZodiac.animal_sign(date.to_date)
+  end
+  def numerology(date)
+    #e.g. 1980-09-22T23:54 -> [1980, 9, 22] -> [9, 9, 22] -> 40 -> 4
+    a = date[/^[^T]+/].split(/[-\/ ]/).map &:to_i
+    a.map!{|i| digit_reduce(i) }
+    digit_reduce( a.sum )
+  end
+  def numerology_index(num)
+    a = [1,2,3,4,5,6,7,8,9,11,22,33]
+    a.include?(num) ? a.index(num) : [55,0,66,0,77].index(num)
+  end
+  def digit_reduce(num)
+    until num.digits.size < 3 && num.digits.uniq.size == 1
+      num = num.digits.sum
+    end
+    num
+  end
+  def planet_data(julday)
+    pdata = {}
+    pstrings = []
+    psigns = []
+    planetlist[0..9].map do |planet|
+      planet_data = swe_calc_ut(julday, planet)
+      lon = planet_data[0]
+      pstrings << "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')"
+      psigns << lon2sign(lon)
+      pdata[planet] = planet_data   # Hash each planet to its planetary position data
+    end
+    return [pdata, pstrings, psigns]
+  end
+  def copyright(uri)
+    short_link = uri[/https?:(?!.*:)\S+$/]
+    "Copyright © #{short_link} - Read more at #{uri}"
+    link_to("Copyright © #{short_link}", uri)
+  end
+  # def set_signs(psigns)
+  #   # Define variables for the planet signs based on planet data
+  #   @sun, @moon, @mercury, @venus, @mars, @jupiter, @saturn, @uranus, @neptune,
+  #   @pluto = psigns
+  # end 
 end

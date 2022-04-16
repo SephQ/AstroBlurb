@@ -1,0 +1,100 @@
+<section class="container">
+  <p><h1>Astrology Reading</h1></p>
+  <p><%= 'Enter rising sign (if known), birth time and time zone:' %></p>
+  <%= form_with method: :get do |f| %>
+    <%#= f.label 'Enter rising sign and birthdate (yyyy-mm-ddTHH:MM):'%><%#<br>%>
+    <%= f.label :rising %>
+    <%= f.select :rising, zodlist, selected: @rising %>
+    <%#= f.label 'Date of birth' %>
+    <%#= text_field_tag :q, @date_search, default: '1983-03-25T21:49' %>
+    <%= f.label 'Birth Time' %>
+    <%= f.datetime_local_field :birth_time, value: @date_search %><br>
+    <%= f.label :time_zone %>
+    <%= f.time_zone_select(:time_zone, nil, default: @time_zone, priority_zones: tz_hotlist) %>
+    <%#= f.label :country %>
+    <%# ISO 3166-1 country code list here: https://en.wikipedia.org/wiki/ISO_3166-1 %>
+    <%#= f.country_select :country_code, default: "United States", priority_countries: ["US", "AU", "CA", "GB", "ZA", "JP", "CN", "IN", "PS", "FR", "ES", "DE"] %>
+    <%= f.submit "Read me!" %>
+  <% end %>
+  <% Swe4r::swe_set_ephe_path('') %>
+  <% p ['lat,long,,swesettop',@lat,@long], Swe4r::swe_set_topo(@lat, @long, 100) %>
+  <%# Swe4r::t_swe_set_jpl_file("app/lib/linux_p1550p2650.430") - can't use this function with Swe4r 0.0.0 %>
+  <% Swe4r::swe_set_topo(@lat, @long, 100) %>
+  
+  <% if false %>
+    <p><%= render plain: params %></p>
+    <p><%= render plain: [swe_houses(@julday,@lat, @long)[1],@date_search,@julday,Swe4r::swe_houses(@julday,@lat, @long,'Placidus'[0].ord)[1],swe_calc_ut(julday(@date_search),'Sun'),Swe4r::swe_calc_ut(2447980.11440, Swe4r::SE_SUN, Swe4r::SEFLG_MOSEPH|Swe4r::SEFLG_SPEED|Swe4r::SEFLG_EQUATORIAL), @utc, @date_search.to_datetime.in_time_zone(@time_zone).strftime('%z')] %></p>
+  <% end %>
+  <% rising_lon = 0 %>
+  <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time] %>
+    <%# User didn't know their rising sign but submitted a form, calculate it for them (ROUGHLY)
+    # Global average sunrise time ~ 6:20 am (https://www.timeanddate.com/sun/@8469718), assume rising sign is equally spaced from sun sign in zodiac as it is in hours relative to a full day. %>
+    <%# sun_lon = today.sun[0] # Ephemeris.rb method - deprecated %>
+    <% sun_lon = swe_calc_ut(@julday, 'Sun')[0] %>
+    <%# birth_hour = eval(@date_search[/(?<=T)\d\d:\d\d/].sub(?:,'+1.0/60*')) %>
+    <%# hours_past_rise = birth_hour - 6.33 %>
+    <%# rising_lon = (sun_lon + hours_past_rise * 15 ) % 360 # 2 hours is 30° %>
+    <% rising_lon = swe_houses(@julday,@lat, @long)[1] # swe_houses first element is always 0, next is Asc ra. %>
+    <% @rising = lon2sign(rising_lon) %>
+  <% end %>
+  <% p @julday, '<jd rlon>', rising_lon, @rising, swe_houses(@julday,@lat, @long)[1] %>
+  <% if @commit && false %><%# Show planet positions if the user has submitted their birth data. %>
+    <p><%= "Life path #{numerology(@date_search)}, lunar year of the #{ eastern(@date_search) }." %></p>
+    <p><%= "#{@rising}-rising (#{(rising_lon%30).to_i}°#{(rising_lon%1*60).round}')" %>
+  <% end %>
+  <% pdata, pstrings, psigns = planet_data(@julday) %>
+  <% if @commit && false  %><%# Show planet positions if the user has submitted their birth data. %>
+    <%#<p><%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')" !!sf-></p>%>
+    <p><%= pstrings.join(", ") %></p>
+  <% end %>
+  <% rising_number = zodlist.index(@rising) %>
+  </br>
+  <% @sun, @moon, @mercury, @venus, @mars, @jupiter, @saturn, @uranus, @neptune,
+    @pluto = psigns %>
+  <%####  Astrology Reading from here:  #####%>
+  <%# Primal Astrology %>
+  <h3><%= "PrimalAstrology.com: #{@sun} sun, year of the #{ @lunar = eastern(@date_search) }:" %></h3>
+  <p><%= @primal_desc[ primal_num = ( @sun_num = zodlist.index(@sun) )*12 + eastlist.index(@lunar) ] %></p>
+  <p><%= copyright("https://www.primalastrology.com/#{ @primal_names[ primal_num ].downcase }.html") %></p>
+  </br>
+  <%# Sun-Moon Combination %>
+  <h3>Sun-Moon combination</h3>
+  <p><%= @sun_moon_desc[ @sun_num * 12 + zodlist.index(@moon) ] %></p>
+  <p><%= copyright("http://www.astrology-numerology.com/sun-moon.html") %></p>
+  </br>
+  <%# Rising %>
+  <h3>Rising sign:</h3>
+  <p><%= @rising_desc[ rising_number ] %></p>
+  <p><%= copyright("https://web.archive.org/web/20190401063426/https://theastrocodex.com/#{ @rising.downcase }-ascendant/") %></p>
+  </br>
+  <%# Mars %>
+  <h3>Mars sign:</h3>
+  <p><%= @mars_desc[ zodlist.index(@mars) ] %></p>
+  <p><%= copyright("http://www.sexualastrology.com/planetmars.html") %></p>
+  </br>
+  <%# Venus %>
+  <h3>Venus sign:</h3>
+  <p><%= @venus_desc[ zodlist.index(@venus) ] %></p>
+  <p><%= copyright("http://www.sexualastrology.com/planetvenus.html") %></p>
+  </br>
+  <%# North Node %>
+  <h3>North Node:</h3>
+  <% @northnode = lon2sign( swe_calc_ut(@julday, 'MEAN_NODE')[0] ) %>
+  <p><%= @nn_desc[ zodlist.index(@northnode) ] %></p>
+  <p><%= copyright("http://astrologyclub.org/birth-chart-interpretations/north-node-in-signs/") %></p>
+  </br>
+  <h3>Pluto generation:</h3>
+  <p><%= @pluto_desc[ pluto_num = zodlist.index(@pluto) ] %></p>
+  <% pluto_url = pluto_num < 3 || pluto_num > 6 ?  "http://astrologyk.com/zodiac/planets/pluto/#{ zodlist[pluto_num] }" : 
+      pluto_num < 5 ? "https://mysticlivingtoday.com/view_page.php?ID=1487" : "http://siderealist.com/pluto.html" %>
+  <p><%= copyright(pluto_url) %></p>
+  </br>
+  <%# Numerology (Life Path) %>
+  <h3>Numerology:</h3>
+  <p><%= @numerology_desc[ numerology_index( numerology( @date_search ) ) ] %></p>
+  <p><%= copyright("http://astrology-numerology.com/num-lifepath.html") %></p>
+  </br>
+  </br>
+  <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+  <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+</section>

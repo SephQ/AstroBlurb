@@ -7,6 +7,18 @@ class PagesController < ApplicationController
   def roast
     load_params
   end
+  def reading
+    load_params
+    @primal_desc = File.read('app/lib/primalastrology.txt').split("\n")
+    @primal_names = File.read('app/lib/primalnames.txt').split("\n")
+    @sun_moon_desc = File.read('app/lib/sunmoon.txt').split("\n")
+    @rising_desc = File.read('app/lib/rising.txt').split("\n")
+    @mars_desc = File.read('app/lib/mars.txt').split("\n")
+    @venus_desc = File.read('app/lib/venus.txt').split("\n")
+    @numerology_desc = File.read('app/lib/numerology.txt').split("\n")
+    @pluto_desc = File.read('app/lib/pluto.txt').split("\n")
+    @nn_desc = File.read('app/lib/northnode.txt').split("\n")
+  end
   def load_params
     # Check if the user has submitted parameters for an astrology blurb, convert them into named variables if so.
     @date_search = params[:birth_time] && params[:birth_time] != "" ? params[:birth_time] : "1980-09-22T23:54"

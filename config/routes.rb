@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   get 'about', to: 'pages#about'
   get 'home', to: 'pages#home'
   get 'roast', to: 'pages#roast'
+  get 'reading', to: 'pages#reading'
 end

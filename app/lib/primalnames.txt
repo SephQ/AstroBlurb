@@ -1,0 +1,144 @@
+Piranha
+Hippopotamus
+Rhinoceros
+Llama
+Tyrannosaurus Rex
+Praying Mantis
+Hammerhead Shark
+Catfish
+Gorilla
+Goldfinch
+Doberman Pinscher
+Dodo
+Squirrel
+Yak
+Wolf
+Hedgehog
+Rattlesnake
+Jackal
+Kangaroo
+Buffalo
+Ostrich
+Beaver
+Seagull
+Wombat
+Chipmunk
+Coyote
+Chimpanzee
+Toucan
+Hummingbird
+Lemur
+Great White Shark
+Centipede
+Seal
+Parrot
+Deer
+Cricket
+Seahorse
+Black Bear
+Vampire Bat
+Turtle
+Hornet
+Snail
+Hermit Crab
+Duck
+Emperor Tamarin
+Iguana
+Pit Bull
+Lobster
+Otter
+Sun Bear
+Wolverine
+Angora Rabbit
+Orca
+Fox
+Hyena
+Swan
+Ferret
+Peacock
+Shih Tzu
+Quetzal
+Mouse
+Sea Star
+Narwhal
+Earthworm
+Polar Bear
+Jellyfish
+Giraffe
+Flamingo
+Penguin
+Corgi
+Salamander
+Gazelle
+Vulture
+Elephant
+Tasmanian Devil
+Butterfly
+Porcupine
+Ladybug
+Goose
+Clownfish
+Axolotl
+Pelican
+Crane
+Marmot
+Anaconda
+Platypus
+Honey Badger
+Koala
+Jaguar
+Anglerfish
+Dragonfly
+Panda
+Raven
+Owl
+Octopus
+Squid
+Skunk
+Raccoon
+Mongoose
+Sugar Glider
+Whale
+Tarantula
+Dove
+Tortoise
+Roadrunner
+Swordfish
+Golden Retriever
+Camel
+Aardvark
+Ant
+Komodo Dragon
+Weaver Finch
+Eagle
+Alligator
+Salmon
+Mole
+Woodpecker
+Bee
+Boxer
+Spider
+Meerkat
+Walrus
+Panther
+Sloth
+Leopard
+Boa Constrictor
+Unicorn
+Handfish
+Dolphin
+Bird-of-Paradise
+Chameleon
+Pufferfish
+Lemming
+Moose
+Stingray
+Silkworm
+Firefly
+Frog
+Gecko
+Leafy Seadragon
+Cheetah
+Ocelot
+Tarsier
+Zebra
