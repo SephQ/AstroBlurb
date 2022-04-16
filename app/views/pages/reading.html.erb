@@ -55,7 +55,7 @@
   <%# Primal Astrology %>
   <h3><%= "PrimalAstrology.com: #{@sun} sun, year of the #{ @lunar = eastern(@date_search) }:" %></h3>
   <p><%= @primal_desc[ primal_num = ( @sun_num = zodlist.index(@sun) )*12 + eastlist.index(@lunar) ] %></p>
-  <p><%= copyright("https://www.primalastrology.com/#{ @primal_names[ primal_num ].downcase }.html") %></p>
+  <p><%= copyright("https://www.primalastrology.com/#{ @primal_names[ primal_num ].downcase.tr(' ','_') }.html") %></p>
   </br>
   <%# Sun-Moon Combination %>
   <h3>Sun-Moon combination</h3>
