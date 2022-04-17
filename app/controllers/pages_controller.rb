@@ -9,15 +9,7 @@ class PagesController < ApplicationController
   end
   def reading
     load_params
-    @primal_desc = File.read('app/lib/primalastrology.txt').split("\n")
-    @primal_names = File.read('app/lib/primalnames.txt').split("\n")
-    @sun_moon_desc = File.read('app/lib/sunmoon.txt').split("\n")
-    @rising_desc = File.read('app/lib/rising.txt').split("\n")
-    @mars_desc = File.read('app/lib/mars.txt').split("\n")
-    @venus_desc = File.read('app/lib/venus.txt').split("\n")
-    @numerology_desc = File.read('app/lib/numerology.txt').split("\n")
-    @pluto_desc = File.read('app/lib/pluto.txt').split("\n")
-    @nn_desc = File.read('app/lib/northnode.txt').split("\n")
+    load_readings
   end
   def quiz
     # Test your ability to recognize your own astrology reading from a false control.
@@ -38,5 +30,16 @@ class PagesController < ApplicationController
     @lat = results.first.coordinates[0] || -33.8651 # https://github.com/alexreisner/geocoder
     @julday = helpers.julday(@date_search)
     p params.to_enum.to_h, @rising, @julday, '<r,jd|lat,lon>', @lat, @long # For debugging
+  end
+  def load_readings
+    @primal_desc = File.read('app/lib/primalastrology.txt').split("\n")
+    @primal_names = File.read('app/lib/primalnames.txt').split("\n")
+    @sun_moon_desc = File.read('app/lib/sunmoon.txt').split("\n")
+    @rising_desc = File.read('app/lib/rising.txt').split("\n")
+    @mars_desc = File.read('app/lib/mars.txt').split("\n")
+    @venus_desc = File.read('app/lib/venus.txt').split("\n")
+    @numerology_desc = File.read('app/lib/numerology.txt').split("\n")
+    @pluto_desc = File.read('app/lib/pluto.txt').split("\n")
+    @nn_desc = File.read('app/lib/northnode.txt').split("\n")
   end
 end
