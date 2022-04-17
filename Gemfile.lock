@@ -90,6 +90,7 @@ GEM
       reline (>= 0.2.7)
     digest (3.1.0)
     erubi (1.10.0)
+    geocoder (1.7.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.10.0)
@@ -221,6 +222,7 @@ DEPENDENCIES
   capybara
   chinese_zodiac (~> 0.0.1)
   debug
+  geocoder (~> 1.7, >= 1.7.5)
   importmap-rails
   jbuilder
   pg
