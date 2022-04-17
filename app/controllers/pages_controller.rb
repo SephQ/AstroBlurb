@@ -27,7 +27,7 @@ class PagesController < ApplicationController
     # @long = @time_zone == "Sydney" ? 151.2099 : @utc * 15   # Rough guess at longitude based on timezone
     p 'request ip, remote', [request.ip, request.remote_ip],[Geocoder.search(request.ip),Geocoder.search(request.remote_ip)]
     results = Geocoder.search(@birth_city)  # https://www.abstractapi.com/guides/how-to-get-an-ip-address-using-ruby-on-rails
-    @birth_city = results.first.address.gsub(/, .+(?=,.*,.*,)/,'') || @birth_city
+    @birth_city = results.first&.address&.gsub(/, .+(?=,.*,.*,)/,'') || "City not found"
     p 'results    v   ',results.first
     # @lat = -33.8651   # Sydney assumed for now, hard to solve this from timezone.
     @lat, @long =  results.empty? ? [-33.8651,151.2093] : results.first.coordinates.map(&:to_f) # https://github.com/alexreisner/geocoder
