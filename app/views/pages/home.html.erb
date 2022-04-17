@@ -55,14 +55,16 @@ end %>
       </p>
   <% end  # End comment section %>
     <%#= f.label 'Enter rising sign and birthdate (yyyy-mm-ddTHH:MM):'%><%#<br>%>
-    <%= f.label :rising %>
-    <%= f.select :rising, zodlist, selected: @rising %>
+    <%#= f.label :rising %>
+    <%#= f.select :rising, zodlist, selected: @rising %>
     <%#= f.label 'Date of birth' %>
     <%#= text_field_tag :q, @date_search, default: '1983-03-25T21:49' %>
     <%= f.label 'Birth Time' %>
     <%= f.datetime_local_field :birth_time, value: @date_search %><br>
-    <%= f.label :time_zone %>
-    <%= f.time_zone_select(:time_zone, nil, default: @time_zone, priority_zones: tz_hotlist) %>
+    <%#= f.label :time_zone %>
+    <%#= f.time_zone_select(:time_zone, nil, default: @time_zone, priority_zones: tz_hotlist) %>
+    <%= f.label :birth_city %>
+    <%= text_field_tag(:birth_city, @birth_city, default: @birth_city, size: 50) %>
     <%#= f.label :country %>
     <%# ISO 3166-1 country code list here: https://en.wikipedia.org/wiki/ISO_3166-1 %>
     <%#= f.country_select :country_code, default: "United States", priority_countries: ["US", "AU", "CA", "GB", "ZA", "JP", "CN", "IN", "PS", "FR", "ES", "DE"] %>
@@ -114,25 +116,22 @@ end %>
     <% @rising = lon2sign(rising_lon) %>
   <% end %>
   <% p @julday, '<jd rlon>', rising_lon, @rising, swe_houses(@julday,@lat, @long)[1] %>
-  <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
-    <p><%= "Life path #{numerology(@date_search)}, lunar year of the #{ eastern(@date_search) }." %></p>
-    <p><%= "#{@rising}-rising (#{(rising_lon%30).to_i}°#{(rising_lon%1*60).round}')" %></p>
+<%#### Only show results if form was submitted: %>
+  <% if @commit %>
+    <% pdata, pstrings, psigns = planet_data(@julday) %>
+    <% p pstrings.join(", ") %>
   <% end %>
-  <% pdata = {} %>
-  <p><% planetlist[0..9].map do |planet| %>
-    <%# lon = eval("today.#{planet}")[0]  # Ephemeris.rb method - deprecated  %>
-    <% planet_data = swe_calc_ut(@julday, planet) %>
-    <% lon = planet_data[0] %>
-    <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
-      <%#<p><%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')" !!sf-></p>%>
-      <%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}') " %>
-    <% end %>
-    <% pdata[planet] = planet_data %><%# Hash each planet to its planetary position data %>
-  <% end %></p>
   <% rising_number = zodlist.index(@rising) %>
   </br>
   <%= blurb(pdata['sun'][0],pdata['moon'][0],pdata['mercury'][0],pdata['venus'][0],pdata['mars'][0],rising_number) %>
   <%#= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
+  
+  <% if @commit && false %><%# Show planet positions if the user has submitted their birth data. %>
+    <%#<p><%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')" !!sf-></p>%>
+    <p><%= "Life path #{numerology(@date_search)}, lunar year of the #{ eastern(@date_search) }." %></p>
+    <p><%= "#{@rising}-rising (#{(rising_lon%30).to_i}°#{(rising_lon%1*60).round}')" %></p>
+    <p><%= pstrings.join(", ") %></p>
+  <% end %>
   <p class="blurb"><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p>
   <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
   <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>

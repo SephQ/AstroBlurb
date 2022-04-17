@@ -76,8 +76,9 @@ module PagesHelper
     else  # No time formatting included, could be integer day or float (e.g. 1981-04-12.234)
       h = (d.to_f % 1) * 24
     end
-    d -= 1 if h < @utc
-    h -= @utc   # Adjust for UTC offset in timezone, make the time UT.
+    # Used to do the @utc shift manually, now timezone gem fixes the utc in the controller instead.
+    # d -= 1 if h < @utc
+    # h -= @utc   # Adjust for UTC offset in timezone, make the time UT.
     Swe4r::swe_julday(y, m, d.to_i, h)
   end
   def swe_houses(julian_day, lat, long, hsys='Placidus'[0].ord)

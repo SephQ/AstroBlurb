@@ -1,20 +1,12 @@
 <section class="container">
   <p><h1>Astrology Reading</h1></p>
-  <p><%= 'Enter rising sign (if known), birth time and time zone:' %></p>
+  <p><%= 'Please enter your birth time and location:' %></p>
   <%= form_with method: :get do |f| %>
-    <%#= f.label 'Enter rising sign and birthdate (yyyy-mm-ddTHH:MM):'%><%#<br>%>
-    <%= f.label :rising %>
-    <%= f.select :rising, zodlist, selected: @rising %>
-    <%#= f.label 'Date of birth' %>
-    <%#= text_field_tag :q, @date_search, default: '1983-03-25T21:49' %>
     <%= f.label 'Birth Time' %>
     <%= f.datetime_local_field :birth_time, value: @date_search %><br>
-    <%= f.label :time_zone %>
-    <%= f.time_zone_select(:time_zone, nil, default: @time_zone, priority_zones: tz_hotlist) %>
-    <%#= f.label :country %>
-    <%# ISO 3166-1 country code list here: https://en.wikipedia.org/wiki/ISO_3166-1 %>
-    <%#= f.country_select :country_code, default: "United States", priority_countries: ["US", "AU", "CA", "GB", "ZA", "JP", "CN", "IN", "PS", "FR", "ES", "DE"] %>
-    <%= f.submit "Read me!" %>
+    <%= f.label :birth_city %>
+    <%= text_field_tag(:birth_city, @birth_city, default: @birth_city, size: 50) %>
+    <p><%= f.submit "Read me!" %></p>
   <% end %>
   <% Swe4r::swe_set_ephe_path('') %>
   <% p ['lat,long,,swesettop',@lat,@long], Swe4r::swe_set_topo(@lat, @long, 100) %>
@@ -45,6 +37,7 @@
   <%#### Only show results if form was submitted: %>
   <% if @commit %>
     <% pdata, pstrings, psigns = planet_data(@julday) %>
+    <% p pstrings.join(", ") %>
     <% if @commit && false  %><%# Show planet positions if the user has submitted their birth data. %>
       <%#<p><%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')" !!sf-></p>%>
       <p><%= pstrings.join(", ") %></p>
@@ -98,6 +91,6 @@
   <% end %>
   </br>
   </br>
-  <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
-  <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+  <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :birth_city, :time_zone, :commit)) %></p>
+  <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :birth_city, :time_zone, :commit)) %></p>
 </section>

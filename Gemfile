@@ -64,6 +64,7 @@ gem 'chinese_zodiac', '~> 0.0.1'
 # gem 'ephem' # my own version I've now gemified. https://github.com/SephQ/Ephem
 # gem 'ephem', :git => 'https://github.com/SephQ/Ephem.git' # my own version I've now gemified. https://github.com/SephQ/Ephem
 gem 'geocoder', '~> 1.7', '>= 1.7.5'
+gem 'timezone', '~> 1.0'
 
 # Use Sass to process CSS
 # gem "sassc-rails"
