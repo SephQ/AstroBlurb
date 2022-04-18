@@ -60,25 +60,13 @@ table {
 }
 
 /* Mine below */
-ol, ul {
-  /* list-style: none; */
-  margin-left: 28px
-}
-p {
-  color: black;
-  font-size: 16px;
-}
-h1 {
-  color: black;
-  font-size: 38px;
-}
 body {
-  background-color:   pink ;               /* Change pink */
-  color:              #5A5A5A;              /* Default Text Color */
+  background-color:   rgb(175, 143, 203) ;               /* Change pink */
+  color:              black;              /* Default Text Color */
   padding-bottom:     30px;
   margin-top:         30px ;
   margin-bottom:      30px ;
-  border:             2px solid red ;      /* Delete if no border needed */
+  /* border:             2px solid red ;      /* Delete if no border needed */
   /* Adjust sitewide (#5A5A5A) text color */    
   color:              black;
   /* Adjust sitewide (1.3em) text size */    
@@ -89,9 +77,24 @@ body {
   text-align:         left; /* left|right|center|justify */
   
   /* Mobile devices display terribly with border cutting through container if I don't force min-width */
-  min-width:          700px ;
+  min-width:          700px ; 
+}
   
-  }
+p {
+  color: black;
+  font-size: 16px;
+}
+ol, ul {
+  /* list-style: none; */
+  margin-left: 28px
+}
+h1 {
+  color: black;
+  font-size: 36px;
+  /* font-family: Luminari; */
+  background-color:   rgb(113, 90, 179) ;               /* Change pink */
+  padding: 10px;
+}
 /* p {
   /* margin: 25px 50px 75px 100px;
   margin-left:        130px ;
@@ -100,8 +103,8 @@ body {
   margin: 0 auto;
   padding-left: 30px;
   padding-right: 30px;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
   width: 660px;
   margin-left: 10px; 
 }
@@ -138,6 +141,13 @@ a:link, a:visited {
   /* text-align: center; = baaaaad! */
   /* text-decoration: none; */
   display: inline-block;
+}
+
+.nav-inline {
+  /* https://stackoverflow.com/questions/224602/how-do-you-make-div-elements-display-inline */
+  float:left;
+  /* padding: 20px; */
+  margin-right: 20px;
 }
 
 a:hover, a:active {

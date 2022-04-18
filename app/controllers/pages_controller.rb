@@ -45,11 +45,19 @@ class PagesController < ApplicationController
     @primal_desc = File.read('app/lib/primalastrology.txt').split("\n")
     @primal_names = File.read('app/lib/primalnames.txt').split("\n")
     @sun_moon_desc = File.read('app/lib/sunmoon.txt').split("\n")
-    @rising_desc = File.read('app/lib/rising.txt').split("\n")
+    # Neutralise the gendered 'he/him' pronouns in the rising description before splitting. Fix capitalization if broken.
+    @rising_desc = neutralise_him( File.read('app/lib/rising.txt') ).split("\n")
     @mars_desc = File.read('app/lib/mars.txt').split("\n")
     @venus_desc = File.read('app/lib/venus.txt').split("\n")
     @numerology_desc = File.read('app/lib/numerology.txt').split("\n")
     @pluto_desc = File.read('app/lib/pluto.txt').split("\n")
     @nn_desc = File.read('app/lib/northnode.txt').split("\n")
+  end
+  def neutralise_him( himput )
+    # Translate gendered (he/him/his) language to gender neutral for readings (they/them/their).
+    himput = himput.gsub(/\bhe is\b/i, '[they are]').gsub(/\bhe (\w+)(?<!s)s\b/i, '[they \1]').
+      gsub(/\bhe\b/i, '[they]').gsub(/\bhis\b(?! )/i, '[theirs]').gsub(/\bhis\b/i, '[their]').gsub(/\bhim\b/i, '[them]')
+    # Fix any broken grammar rules, including capitalisation
+    himput.gsub(/\. \[t/,'. [T')
   end
 end

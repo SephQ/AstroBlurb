@@ -59,6 +59,10 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  # Let stylesheets cause immediate changes in localhost - don't serve static precompiled images
+  # https://stackoverflow.com/questions/12762939/rails-dev-environment-not-updating-html-css-assets-even-after-restarting-server
+  config.serve_static_assets = false
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

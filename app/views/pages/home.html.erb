@@ -114,17 +114,17 @@ end %>
     <%# rising_lon = (sun_lon + hours_past_rise * 15 ) % 360 # 2 hours is 30° %>
     <% rising_lon = swe_houses(@julday,@lat, @long)[1] # swe_houses first element is always 0, next is Asc lon. %>
     <% @rising = lon2sign(rising_lon) %>
+    <% p @julday, '<jd rlon>', rising_lon, @rising, swe_houses(@julday,@lat, @long)[1] %>
+  <%#### Only show results if form was submitted: %>
+    <% if @commit %>
+      <% pdata, pstrings, psigns = planet_data(@julday) %>
+      <% p pstrings.join(", ") %>
+    <% end %>
+    <% rising_number = zodlist.index(@rising) %>
+    </br>
+    <%= blurb(pdata['sun'][0],pdata['moon'][0],pdata['mercury'][0],pdata['venus'][0],pdata['mars'][0],rising_number) %>
+    <%#= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
   <% end %>
-  <% p @julday, '<jd rlon>', rising_lon, @rising, swe_houses(@julday,@lat, @long)[1] %>
-<%#### Only show results if form was submitted: %>
-  <% if @commit %>
-    <% pdata, pstrings, psigns = planet_data(@julday) %>
-    <% p pstrings.join(", ") %>
-  <% end %>
-  <% rising_number = zodlist.index(@rising) %>
-  </br>
-  <%= blurb(pdata['sun'][0],pdata['moon'][0],pdata['mercury'][0],pdata['venus'][0],pdata['mars'][0],rising_number) %>
-  <%#= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
   
   <% if @commit && false %><%# Show planet positions if the user has submitted their birth data. %>
     <%#<p><%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')" !!sf-></p>%>
@@ -133,6 +133,6 @@ end %>
     <p><%= pstrings.join(", ") %></p>
   <% end %>
   <p class="blurb"><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p>
-  <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
-  <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+  <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)) %></p>
+  <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)) %></p>
 </section>
