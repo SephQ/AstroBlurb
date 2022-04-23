@@ -39,6 +39,9 @@ module PagesHelper
   def zodlist
     %w[Aries Taurus Gemini Cancer Leo Virgo Libra Scorpio Sagittarius Capricorn Aquarius Pisces Unknown]
   end
+  def sign2num( sign )
+    zodlist.index( sign.capitalize )
+  end
   def eastlist
     %w[Rat Ox Tiger Rabbit Dragon Snake Horse Goat Monkey Rooster Dog Pig Unknown]
   end
@@ -55,16 +58,34 @@ module PagesHelper
     # Abandoned for now, lol
   end
   def swe_name(planet)
-    planet = planet.upcase.tr(' ','_')  # e.g. SUN, VESTA, MEAN_NODE, TRUE_NODE, etc.
-    if %w[ECL_NUT SUN MOON MERCURY VENUS MARS JUPITER SATURN URANUS NEPTUNE PLUTO MEAN_NODE TRUE_NODE MEAN_APOG OSCU_APOG EARTH CHIRON PHOLUS CERES PALLAS JUNO VESTA INTP_APOG INTP_PERG NPLANETS FICT_OFFSET NFICT_ELEM PLMOON_OFFSET AST_OFFSET CUPIDO HADES ZEUS KRONOS APOLLON ADMETOS VULKANUS POSEIDON ISIS NIBIRU HARRINGTON NEPTUNE_LEVERRIER NEPTUNE_ADAMS PLUTO_LOWELL PLUTO_PICKERING].include?(planet)
-      planet = eval("Swe4r::SE_"+planet)
-    else
-      "fail"
+    # Rename generic planet names (e.g. 'sun', 'moon', 'lilith') to Swiss Ephemeris body names (https://www.astro.com/swisseph/swephprg.htm#_Toc471829059 under 3.2.  Bodies (int ipl))
+    # sun, moon, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto, mean_node, true_node, mean_apog, oscu_apog, earth, chiron, pholus, ceres, pallas, juno, vesta
+    allowed_names = %w[SUN MOON MERCURY VENUS MARS JUPITER SATURN URANUS NEPTUNE PLUTO NORTHNODE NORTH_NODE MEAN_NODE TRUE_NODE NODE LILITH TRUE_LILITH MEAN_LILITH MEAN_APOG OSCU_APOG EARTH CHIRON PHOLUS CERES PALLAS JUNO VESTA RISING]
+    # %w[ECL_NUT SUN MOON MERCURY VENUS MARS JUPITER SATURN URANUS NEPTUNE PLUTO MEAN_NODE TRUE_NODE MEAN_APOG OSCU_APOG EARTH CHIRON PHOLUS CERES PALLAS JUNO VESTA INTP_APOG INTP_PERG NPLANETS FICT_OFFSET NFICT_ELEM PLMOON_OFFSET AST_OFFSET CUPIDO HADES ZEUS KRONOS APOLLON ADMETOS VULKANUS POSEIDON ISIS NIBIRU HARRINGTON NEPTUNE_LEVERRIER NEPTUNE_ADAMS PLUTO_LOWELL PLUTO_PICKERING].include?(planet)
+    planet = planet.upcase  # First remove case-sensitivity issues
+    if !allowed_names.include?(planet)
+      return "se_rename error: #{ planet } is not a valid name."
     end
-    planet
+    # Replace allowed abbreviations with their true Swiss Ephemeris names and add "SE_" prefix
+    if %w[NORTHNODE NORTH_NODE NODE].include?(planet)
+      planet = "MEAN_NODE"  # Assume the mean north node Unless @true_node is used explicity
+    elsif %w[LILITH MEAN_LILITH].include?(planet)
+      planet = "MEAN_APOG"  # Assume the mean Lilith (Black Moon Lilith) Unless @true_lilith is used explicity
+    elsif %w[TRUE_LILITH].include?(planet)
+      planet = "OSCU_APOG"
+    end
+    if planet[/^Swe4r::SE_/]
+      planet = eval(planet)
+    else
+      planet = eval("Swe4r::SE_" + planet)
+    end
+    planet          # Output the Swiss Ephemeris body object
   end
   def swe_calc_ut(julian_day, planet)
     Swe4r::swe_calc_ut(julian_day, swe_name(planet), Swe4r::SEFLG_SWIEPH)#|Swe4r::SEFLG_TOPOCTR - Swe4r::SEFLG_MOSEPH instead of SEFLG_SWIEPH
+  end
+  def swe_calc_sign(julian_day, planet)
+    lon2sign( swe_calc_ut(julian_day, planet)[0] )
   end
   def julday(date)
     y, m, d = date.split(/[-\/]/)
@@ -84,6 +105,9 @@ module PagesHelper
   def swe_houses(julian_day, lat, long, hsys='Placidus'[0].ord)
     Swe4r::swe_houses(julian_day, lat, long, hsys)
   end
+  def rising_sign(julian_day, lat, long)
+    lon2sign( swe_houses(julian_day, lat, long)[1] )
+  end  
   def eastern(date)
     ChineseZodiac.animal_sign(date.to_date)
   end

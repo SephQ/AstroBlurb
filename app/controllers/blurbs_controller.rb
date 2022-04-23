@@ -8,6 +8,7 @@ class BlurbsController < ApplicationController
 
   # GET /blurbs/1 or /blurbs/1.json
   def show
+    load_params
   end
 
   # GET /blurbs/new

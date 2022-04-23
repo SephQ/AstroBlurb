@@ -1,4 +1,57 @@
 module BlurbsHelper
+  def blurb_me( blurb, params, rising, julday )
+    # Turn a community-generated blurb generator and user-submitted birth details into a tailored blurb for that user
+    # Called from the show view of a blurb if the user has committed their birth details to params
+    if params[:commit]
+      return "This blurb generator is broken." unless blurb.planet_replacements  # warning for bad blurbs that lack the right attributes
+      text = blurb.text.gsub(/@(ascendant|asc)\b/i,'@rising')   # Grab the blurb text and make sure @rising tags are correct
+      planets = text.scan(/@\w+/)
+      replacements = blurb.planet_replacements.split(/[\n\r]+/).map{|row| row.split(/,\s*/) }
+      p replacements
+      if replacements.size < planets.size
+        return "Error: This blurb doesn't have enough replacement rows for the #{ planets.size } planets mentioned in the text. Someone should edit it to add #{ planets.size - replacements.size } more rows of phrases."
+      end
+      # rising_options = replacements[ planets.index( '@rising' ) ] # Find the list of phrases for the rising sign option
+      # replacements.delete_at( planets.index( '@rising' ) )      # Delete the replacements row for the rising sign, do it manually (since it's not a planet)
+      # text = rising_replacement( text, rising, rising_options ) # Replace any @rising tags first, because we have the rising sign in the params
+      # se_planets = se_rename( planets )
+      blurb = text.gsub(/@\w+/){|name| # For each @planet in the text, find the sign and then use that to choose the phrase
+        p "BlurbsHelper name #{name}"
+        name = name[1..]    # Remove the '@' from the start
+        if name == "rising"
+          i = sign2num( rising )
+          p "BlurbsHelper: HEY!!! name=#{name}, sign=#{rising}, i=#{i}, jd = #{julday.inspect.to_s}"
+        else
+          sign = swe_calc_sign( julday, name )
+          i = sign2num( sign )
+          p "BlurbsHelper: HEY!!! name=#{name}, sign=#{sign}, i=#{i}, jd = #{julday.inspect.to_s}"
+        end
+        replacements.shift[ i ]       # Take the next row from the replacements list, take the correct phrase. Row is removed (shift).  
+      }
+
+    else
+      # Failsafe debugger to avoid a nil params input or the like
+      "Error: you didn't click 'Blurb me!' - but you'll never see this because this function isn't called unless you do."
+    end
+  end
+  # def se_rename( planet ) # Using PagesController function instead - merged them
+  #   # Rename generic planet names (e.g. 'sun', 'moon', 'lilith') to Swiss Ephemeris body names (https://www.astro.com/swisseph/swephprg.htm#_Toc471829059 under 3.2.  Bodies (int ipl))
+  #   # sun, moon, mercury, venus, mars, jupiter, saturn, uranus, neptune, pluto, mean_node, true_node, mean_apog, oscu_apog, earth, chiron, pholus, ceres, pallas, juno, vesta
+  #   allowed_names = %w[SUN MOON MERCURY VENUS MARS JUPITER SATURN URANUS NEPTUNE PLUTO NORTHNODE NORTH_NODE MEAN_NODE TRUE_NODE NODE LILITH TRUE_LILITH MEAN_LILITH MEAN_APOG OSCU_APOG EARTH CHIRON PHOLUS CERES PALLAS JUNO VESTA RISING]
+  #   planet = planet.upcase  # First remove case-sensitivity issues
+  #   if !allowed_names.include?(planet)
+  #     return "se_rename error: #{ planet } is not a valid name."
+  #   end
+  #   # Replace allowed abbreviations with their true Swiss Ephemeris names and add "SE_" prefix
+  #     if %w[NORTHNODE NORTH_NODE NODE].include?(planet)
+  #       planet = "MEAN_NODE"  # Assume the mean north node Unless @true_node is used explicity
+  #     elsif %w[LILITH MEAN_LILITH].include?(planet)
+  #       planet = "MEAN_APOG"  # Assume the mean Lilith (Black Moon Lilith) Unless @true_lilith is used explicity
+  #     elsif %w[TRUE_LILITH].include?(planet)
+  #       planet = "OSCU_APOG"
+  #     end
+  #     "Swe4r::SE_" + planet          # Output the Swiss Ephemeris body name e.g. "SE_SUN"
+  # end      
   def example_title
     "Personality Blurb by zodiac--signs.tumblr.com"
   end

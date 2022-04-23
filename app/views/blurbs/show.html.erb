@@ -1,7 +1,17 @@
 <p style="color: green"><%= notice %></p>
 
-<%= render @blurb %>
-
+<%= render "birth_input" %>
+<% unless @commit %>
+  <%# Render the basic text version of the blurb generator if the user hasn't committed their own birth data %>
+  <%= render @blurb %>
+<% else %>
+  <%# If the user has committed their birth details, then show their blurb result for this blurb generator instead. %>
+  <%= render html: blurb_me( @blurb, params, @rising, @julday ) %>
+  <p>
+    <strong>Planet replacements:</strong>
+    <%= simple_format( @blurb.planet_replacements ) %>
+  </p>
+<% end %>
 <div>
   <%= link_to "Edit this blurb", edit_blurb_path(@blurb) %> |
   <%= link_to "Back to blurbs", blurbs_path %>
