@@ -1,4 +1,4 @@
-<section class="container">
+<%# <section class="container"> %>
   <p><h1>Astrology Roast Generator</h1></p>
   <p><%= 'Please enter your birth time and location:' %></p>
   <%= form_with method: :get do |f| %>
@@ -26,10 +26,10 @@
   <% if @commit %>
     <% pdata, pstrings, psigns = planet_data(@julday) %>
     <% p pstrings.join(", ") %>
+    <% rising_number = zodlist.index(@rising) %>
+    </br>
+    <p class="blurb"><%= roast(pdata['moon'][0],pdata['sun'][0],pdata['venus'][0],pdata['mars'][0]) %></p>
   <% end %>
-  <% rising_number = zodlist.index(@rising) %>
-  </br>
-  <p class="blurb"><%= roast(pdata['moon'][0],pdata['sun'][0],pdata['venus'][0],pdata['mars'][0]) %></p>
   
   <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
     <%#<p><%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')" !!sf-></p>%>
@@ -40,4 +40,4 @@
   <% end %>
   <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
   <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
-</section>
+<%# </section> %>

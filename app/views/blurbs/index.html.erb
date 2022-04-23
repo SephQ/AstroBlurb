@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Blurbs</h1>
+
+<div id="blurbs">
+  <% @blurbs.each do |blurb| %>
+    <%= render blurb %>
+    <p>
+      <%= link_to "Show this blurb", blurb %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New blurb", new_blurb_path %>

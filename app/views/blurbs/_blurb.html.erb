@@ -1,0 +1,17 @@
+<div id="<%= dom_id blurb %>">
+  <p>
+    <strong>Title:</strong>
+    <%= blurb.title %>
+  </p>
+
+  <p>
+    <strong>Text:</strong>
+    <%= simple_format( blurb.text ) %><%# https://apidock.com/rails/v4.1.8/ActionView/Helpers/TextHelper/simple_format %>
+  </p>
+
+  <p>
+    <strong>Planet replacements:</strong>
+    <%= simple_format( blurb.planet_replacements ) %><%# https://apidock.com/rails/v4.1.8/ActionView/Helpers/TextHelper/simple_format %>
+  </p>
+
+</div>

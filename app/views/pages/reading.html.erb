@@ -1,4 +1,4 @@
-<section class="container">
+<%# <section class="container"> %>
   <p><h1>Astrology Reading</h1></p>
   <p><%= 'Please enter your birth time and location:' %></p>
   <%= form_with method: :get do |f| %>
@@ -93,4 +93,4 @@
   </br>
   <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :birth_city, :time_zone, :commit)) %></p>
   <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :birth_city, :time_zone, :commit)) %></p>
-</section>
+<%# </section> %>

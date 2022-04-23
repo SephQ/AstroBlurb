@@ -58,8 +58,16 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
 /* Mine below */
+strong {
+  font-weight: bold !important;
+}
+.small {
+  font-size: small !important;
+}
+.smaller {
+  font-size: smaller !important;
+}
 body {
   background-color:   rgb(175, 143, 203) ;               /* Change pink */
   color:              black;              /* Default Text Color */
@@ -83,10 +91,16 @@ body {
 p {
   color: black;
   font-size: 16px;
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 ol, ul {
   /* list-style: none; */
   margin-left: 28px
+}
+ul .nodots {
+  list-style-type: none;
+  list-style: none;
 }
 h1 {
   color: black;
@@ -100,17 +114,24 @@ h1 {
   margin-left:        130px ;
   } */
 .container, header, footer {
-  margin: 0 auto;
+  /* margin: 0 auto;
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 10px;
   padding-bottom: 5px;
   width: 660px;
-  margin-left: 10px; 
+  margin-left: 10px;  */
 }
 .body {
-  padding-left: 40px;
-  padding-right: 40px;
+  /* padding-left: 40px;
+  padding-right: 40px; */
+  margin: 0 auto;
+  margin-left: 70px;
+  padding-right: 70px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  width: 660px;
+  margin-left: 10px; 
   /* width: 960px;
   margin-left: 10px;  */
 }

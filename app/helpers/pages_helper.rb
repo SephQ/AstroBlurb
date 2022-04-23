@@ -7,7 +7,7 @@ module PagesHelper
     # Convert ecliptic longitude values to zodiac numbers Aries=0, Pisces=11.
     (lon/30).to_i
   end
-  def blurb(sun,moon,mercury,venus,mars,ascnum)
+  def blurbify(sun,moon,mercury,venus,mars,ascnum)  # was blurb() in the past, but changed now blurbs are objects 220423
     # Inputs are the ecliptic longitude values of each of the named planetary bodies
     text = ['I am ','',' but my emotions are rather ','','. I think in a ','',' way, but express my energy in a ','',' way. In love, I seek ','','. I take on the role of ','','.']
     # out = ["Sun in "+ra2sign(sun)+", Moon in "+ra2sign(moon)+", Mercury in "+ra2sign(mercury)+", Venus in "+ra2sign(venus)+" and Mars in "+ra2sign(mars)]

@@ -32,28 +32,11 @@ end %>
 :datetime_select, :object_name=, :button, :collection_select, :grouped_collection_select, :fields, :object=, :select,
 :time_zone_select, :weekday_select, :field_name, :fields_for, :text_field, :password_field, :hidden_field, :file_field, :text_area,
 :collection_radio_buttons, :check_box, :collection_check_boxes, :id, :radio_button, :simple_fields_for, :model_name_from_record_or_class, :convert_to_model] %>
-<section class="container">
+
+<%# <section class="container"> %>
   <p><h1>Astrology Blurb Generator</h1></p>
   <p><%= 'Enter rising sign (if known), birth time and time zone:' %></p>
   <%= form_with method: :get do |f| %>
-  <% if false # Comment out below , just a guideline %>
-      <p>
-          <%= form.label :description %><br>
-          <%= form.text_field :description %>
-      </p>
-
-      <p>
-          <%= form.label :due %><br>
-          <%  if @todo.due.nil?
-                  @todo.due = DateTime.now
-              end %>
-          <%= form.datetime_local_field :due, :value => @todo.due %>
-      </p>
-
-      <p>
-          <%= form.submit %>
-      </p>
-  <% end  # End comment section %>
     <%#= f.label 'Enter rising sign and birthdate (yyyy-mm-ddTHH:MM):'%><%#<br>%>
     <%#= f.label :rising %>
     <%#= f.select :rising, zodlist, selected: @rising %>
@@ -88,7 +71,7 @@ end %>
   <%# planet_list = [11, 10, 1, 2, 4, 5, 6, 7, 8, 9] #Sun, Moon, Merc, Ven, Mars, Jup, ..., Pluto %>
   <%# planets = planet_list.map do |i| %>
     <%# obj = EphJpl.new("app/lib/linux_p1550p2650.430", i, 3, 2447979.5) %>
-    <p><%#= obj.calc %></p>
+    <%#<p>= obj.calc </p>%>
   <%# end %>
 
   <%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
@@ -99,9 +82,9 @@ end %>
 <% end %>
   <%# Ditched other options and did ruby-ephemeris https://github.com/isene/ephemeris %>
   <%# today.methods includes [:alt_az, :print, :get_vars, :distf, :body_alt_az, :body_calc, :rts, :sun, :moon, :mercury, :venus, :mars, :jupiter, :saturn, :uranus, :neptune, :body_data, :hms_dms] %>
-  <p><%# today = Ephemeris.new(@date_search, @lat, @long, @utc) %></p>
+  <%#<p> today = Ephemeris.new(@date_search, @lat, @long, @utc) </p>%>
   <%# today.print.split("\n").each do |i| %>
-    <p><%#= i %></p>
+    <%#<p>= i </p>%>
   <%# end %>
   <% rising_lon = 0 %>
   <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time] %>
@@ -122,8 +105,8 @@ end %>
     <% end %>
     <% rising_number = zodlist.index(@rising) %>
     </br>
-    <%= blurb(pdata['sun'][0],pdata['moon'][0],pdata['mercury'][0],pdata['venus'][0],pdata['mars'][0],rising_number) %>
-    <%#= blurb(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
+    <%= blurbify(pdata['sun'][0],pdata['moon'][0],pdata['mercury'][0],pdata['venus'][0],pdata['mars'][0],rising_number) %>
+    <%#= blurbify(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
   <% end %>
   
   <% if @commit && false %><%# Show planet positions if the user has submitted their birth data. %>
@@ -135,4 +118,4 @@ end %>
   <p class="blurb"><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p>
   <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)) %></p>
   <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)) %></p>
-</section>
+<%# </section> %>

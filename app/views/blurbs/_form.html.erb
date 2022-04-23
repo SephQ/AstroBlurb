@@ -1,0 +1,32 @@
+<%= form_with(model: blurb) do |form| %>
+  <% if blurb.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(blurb.errors.count, "error") %> prohibited this blurb from being saved:</h2>
+
+      <ul>
+        <% blurb.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title, :placeholder => example_title %>
+  </div>
+
+  <div>
+    <%= form.label :text, style: "display: block" %>
+    <%= form.text_area :text, :size => "80x5", :placeholder => example_text %>
+  </div>
+
+  <div>
+    <%= form.label :planet_replacements, style: "display: block" %>
+    <%= form.text_area :planet_replacements, :size => "80x10", :placeholder => example_planet_replacements %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

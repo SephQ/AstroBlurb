@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @blurb %>
+
+<div>
+  <%= link_to "Edit this blurb", edit_blurb_path(@blurb) %> |
+  <%= link_to "Back to blurbs", blurbs_path %>
+
+  <%= button_to "Destroy this blurb", @blurb, method: :delete %>
+</div>
