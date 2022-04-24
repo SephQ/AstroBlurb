@@ -23,7 +23,7 @@ module BlurbsHelper
       # se_planets = se_rename( planets )
       blurb = text.gsub(/@\w+/){|name| # For each @planet in the text, find the sign and then use that to choose the phrase
         p "BlurbsHelper name #{name}"
-        name = name[1..]    # Remove the '@' from the start
+        name = name[1..].downcase    # Remove the '@' from the start and make lowercase
         if name == "rising"
           i = sign2num( rising )
           p "BlurbsHelper: HEY!!! name=#{name}, sign=#{rising}, i=#{i}, jd = #{julday.inspect.to_s}"
@@ -31,6 +31,16 @@ module BlurbsHelper
           # If the name is of form @[planet]_house then it's not a sign-based reading, it's house-based
           name = name.gsub(/_house/,'')   # Remove the _house suffix
           i = swe_calc_house( julday, name ) - 1  # Calculate 1-based house and then shift to 0-based index
+        elsif name == "eastern"
+          # If the name is @eastern then it's not a zodiac-based reading, it's based on the Eastern lunar year
+          i = eastlist.index( eastern( @date_search ) ) # Find the 0-based index of the user's Eastern year (Rat, Ox, ..., Pig)
+        elsif name =~ /^(lifepath|life_path)/
+          # If the name is @lifepath or @life_path it's not a sign-based reading, it's numerology based (9 options - master numbers reduced currently)
+          date = @date_search   # Use the @date_search instance variable to get the date in user's local time.
+          i = numerology( date )  # Calculate the life path number (includes master numbers 11, 22, 33)
+          # i = i.digits.sum # Apply one last digit-sum to ensure master numbers are reduced. 9 options necessary to prevent unexpected behaviour
+          i = ([*1..9] + [11, 22, 33, 44]).index(i) + 1 # If keeping master numbers, then 11->10, 22->11, 33->12 etc.
+          i = i - 1   # Move to a 0-based index for the array
         else
           sign = swe_calc_sign( julday, name )
           i = sign2num( sign )
@@ -65,7 +75,7 @@ module BlurbsHelper
   def fix_a_to_an(text)
     # Look for places in text where a word starting with a vowel has been preceded by the word "a" incorrectly
     # Replace these "a"s with "an"s instead. (Ignore silent h words, but maintain "a historic" style https://jakubmarian.com/list-of-words-with-a-silent-h-in-english/ )
-    text.gsub(/\ba\K (?=[aeiou]|hour|honest|honour|heir)/i,'n ')
+    text.gsub(/\ba\K (?=[aeiou]|hour|honest|honour|heir|11\b|8|18\b)/i,'n ')
   end
   def example_title
     "Personality Blurb by zodiac--signs.tumblr.com"

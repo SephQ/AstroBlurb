@@ -1,4 +1,5 @@
 <%= render "blurbs/birth_input" %><%# Show the birth input form for user to provide birth details %>
+<p><%= "Life path #{numerology(@date_search)}, lunar year of the #{ eastern(@date_search) }." %></p>
 <%= simple_format( "houses for sun-pluto: #{ planetlist.map{|i| "#{i}: #{ swe_calc_house( @julday, i ) }" }*"\n" }" ) %>
 <hr>
 <%= simple_format( "houses: #{ @houses.inspect }" ) %>
