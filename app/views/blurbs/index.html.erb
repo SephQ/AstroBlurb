@@ -19,5 +19,8 @@
     </p>
   <% end %>
 </div>
+<hr>
+<p class="h2"><%= link_to "Create Your Own Blurb Template", new_blurb_path %></p>
 
-<%= link_to "New blurb", new_blurb_path %>
+<p><%= link_to "Back to Home", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+<p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
