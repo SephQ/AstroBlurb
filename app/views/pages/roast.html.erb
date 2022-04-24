@@ -30,4 +30,6 @@
   <% end %>
   <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
   <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+  <p><%= link_to "More Blurb Generators (User-created)", blurbs_path(params.permit(*permitted_params)) %></p>
+  <p><%= link_to "Create Your Own Blurb Template", new_blurb_path(params.permit(*permitted_params)) %></p>
 <%# </section> %>

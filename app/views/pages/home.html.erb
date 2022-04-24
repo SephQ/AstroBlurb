@@ -13,7 +13,7 @@
   <p><%#= Ephem.chart_bodies %><%= [@date_search] %></p>
 <% end %>
   <% rising_lon = 0 %>
-  <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time] %>
+  <% if params[:commit] #params[:time_zone] && params[:birth_time] %>
     <%# User didn't know their rising sign but submitted a form, calculate it for them %>
     <% sun_lon = swe_calc_ut(@julday, 'Sun')[0] %>
     <%# rising_lon = swe_houses(@julday,@lat, @long)[1] # swe_houses first element is always 0, next is Asc lon. %>
@@ -27,8 +27,11 @@
     <% end %>
     <% rising_number = zodlist.index(@rising) %>
     </br>
+    <p class="h4">
     <%= blurbify(pdata['sun'][0],pdata['moon'][0],pdata['mercury'][0],pdata['venus'][0],pdata['mars'][0],rising_number) %>
     <%#= blurbify(today.sun[0],today.moon[0],today.mercury[0],today.venus[0],today.mars[0],rising_number) %>
+    </p>
+    </br>
   <% end %>
   
   <% if @commit && false %><%# Show planet positions if the user has submitted their birth data. %>
@@ -37,7 +40,9 @@
     <p><%= "#{@rising}-rising (#{(rising_lon%30).to_i}°#{(rising_lon%1*60).round}')" %></p>
     <p><%= pstrings.join(", ") %></p>
   <% end %>
-  <p class="blurb"><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p>
-  <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)) %></p>
-  <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)) %></p>
+  <p class="blurb"><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p><%# Tumblr image that this blurb web app was inspired by - zodiac--signs.tumblr.com %>
+  <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(*permitted_params)) %></p>
+  <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(*permitted_params)) %></p>
+  <p><%= link_to "More Blurb Generators (User-created)", blurbs_path(params.permit(*permitted_params)) %></p>
+  <p><%= link_to "Create Your Own Blurb Template", new_blurb_path(params.permit(*permitted_params)) %></p>
 <%# </section> %>

@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
     p 'date, shifted, %FT%T', date, date_shifted, date_shifted.strftime("%FT%T")
     @julday = helpers.julday( date_shifted.strftime("%FT%T") )
     p params.to_enum.to_h, @rising, @julday, '<r,jd|lat,lon>', @lat, @long # For debugging
-    Swe4r::swe_set_ephe_path('')          # Initialize Swiss Ephemeris
+    Swe4r::swe_set_ephe_path('lib')          # Initialize Swiss Ephemeris
     p ['lat,long,,swesettop',@lat,@long] #, Swe4r::swe_set_topo(@lat, @long, 100)
     Swe4r::swe_set_topo(@lat, @long, 100) # Set the topocentric location with 100 m altitude above sea level (planets positions relative to your location on the Earth surface)
     if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time]

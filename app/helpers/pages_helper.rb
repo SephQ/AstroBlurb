@@ -1,4 +1,8 @@
 module PagesHelper
+  def permitted_params
+    # List of permitted parameters for the params 'hash'. Saves writing it separately everywhere. (removed :controller)
+    [:id, :title, :text, :planet_replacements, :format, :rising, :birth_time, :time_zone, :birth_city, :commit]
+  end
   def lon2sign(lon)
     # Convert ecliptic longitude values to zodiac signs
     %w[Aries Taurus Gemini Cancer Leo Virgo Libra Scorpio Sagittarius Capricorn Aquarius Pisces][ (lon/30).to_i ]
@@ -107,7 +111,7 @@ module PagesHelper
   end
   def rising_sign(julian_day, lat, long)
     lon2sign( swe_houses(julian_day, lat, long)[1] )
-  end  
+  end
   def eastern(date)
     ChineseZodiac.animal_sign(date.to_date)
   end

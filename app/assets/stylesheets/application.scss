@@ -1,0 +1,161 @@
+// here your custom bootstrap variables... https://dev.to/coorasse/rails-7-bootstrap-5-and-importmaps-without-nodejs-4g8
+@import "bootstrap";
+// https://www.mugo.ca/Blog/How-to-customize-Bootstrap-4-using-Sass
+@import "bootstrap/pagination";
+// @import "bootstrap/badge";
+// @import "bootstrap/jumbotron";
+@import "bootstrap/alert";
+// @import "bootstrap/progress";
+// @import "bootstrap/media"; // SassC::SyntaxError: Error: File to import not found or unreadable: bootstrap/media.
+@import "bootstrap/list-group";
+@import "bootstrap/close";
+// @import "bootstrap/toasts";
+@import "bootstrap/modal";
+// @import "bootstrap/tooltip";
+@import "bootstrap/popover";
+@import "bootstrap/carousel";
+// @import "bootstrap/spinners";
+@import "bootstrap/utilities";
+
+// $zs-teal: rgb(188, 219, 229) ;
+// $zs-grey: rgb(102,102,102);
+$zs-purple: rgb(101, 99, 136); //112,110,141 -> 122,121,150 in output - so adjusting to get 112,110,141
+$zs-teal: rgb(191, 232, 232) ;  // 197, 232, 232 is true. (188, 216, 222)->(194,216,222) in output
+$zs-grey: rgb(89,89,89);  // 102,102,102 but it compiles as 115,115,115 so I've reduced it
+$primary: $zs-purple;
+$dark-cyan: #10a2b5;
+$dark-grey: #494949;
+
+// .bg-primary {
+//   background-color: rgb(169, 144, 196);
+// }
+.bg-purple {
+  // background-color: $purple;
+  // background-color: $dark-grey;
+  background-color: $zs-purple;
+}
+body {
+    color: $zs-teal;
+    // background-color: $dark;
+  // background-color:   rgb(175, 143, 203) ;
+//   /* background-color:   rgb(111, 110, 142) ;  /* zodiac--signs purple banner blurb part */
+//   /* background-color:   rgb(188, 219, 229) ;  /* zodiac--signs teal text blurb part */
+//   color:              black;              /* Default Text Color */
+//   padding-bottom:     30px;
+//   margin-top:         30px ;
+//   margin-bottom:      30px ;
+//   padding-left:       30px ;
+//   padding-right:      30px ;
+//   /* border:             2px solid red ;      /* Delete if no border needed */
+//   /* Adjust sitewide (#5A5A5A) text color */    
+//   color:              black;
+//   /* Adjust sitewide (1.3em) text size */    
+  font-size:          1.18em;
+//   /* Adjust sitewide (Open Sans) font family */    
+//   font-family:        Georgia;
+//   /* Adjust sitewide text alignment */
+//   text-align:         left; /* left|right|center|justify */
+  
+//   /* Mobile devices display terribly with border cutting through container if I don't force min-width */
+//   min-width:          700px ; 
+}
+.container, footer {
+  // background-color: rgb(120, 90, 140);
+}
+
+header {
+  // background-color: rgb(175, 143, 203);
+}
+.navbar-dark {
+  // background-color: rgb(100, 70, 130);
+  // background-color: $dark;
+  background-color: $zs-purple;
+}
+.nav-link {
+  font-weight: bold;
+  color: $zs-teal;
+}
+// p {
+//   color: black;
+//   font-size: 16px;
+//   padding-bottom: 5px;
+//   padding-top: 5px;
+// }
+// ol, ul {
+//   /* list-style: none; */
+//   margin-left: 28px
+// }
+ul .nodots {
+  list-style-type: none;
+  list-style: none;
+}
+a {
+  // color: $gray-200;
+  font-weight: bold;
+  color: $zs-teal;
+}
+// h1 {
+//   color: black;
+//   font-size: 36px;
+//   /* font-family: Luminari; */
+//   background-color:   rgb(113, 90, 179) ;               /* Nice */
+//   /*background-color:   rgb(111, 110, 142) ;  /* zodiac--signs purple banner blurb part */
+//   padding: 10px;
+// }
+// /* p {
+//   /* margin: 25px 50px 75px 100px;
+//   margin-left:        130px ;
+//   } */
+// .container, header, footer {
+//   /* margin: 0 auto;
+//   padding-left: 30px;
+//   padding-right: 30px;
+//   padding-top: 10px;
+//   padding-bottom: 5px;
+//   width: 660px;
+//   margin-left: 10px;  */
+// }
+// .body {
+//   /* padding-left: 40px;
+//   padding-right: 40px; */
+//   margin: 0 auto;
+//   margin-left: 70px;
+//   padding-right: 70px;
+//   padding-top: 10px;
+//   padding-bottom: 5px;
+//   width: 660px;
+//   margin-left: 10px; 
+//   /* width: 960px;
+//   margin-left: 10px;  */
+// }
+// .blurb { /* blurb outputs */
+//   padding-top: 10px;
+//   padding-bottom: 10px;
+  // font-size: 18px;
+// }
+// thead {
+//   font-weight: bold
+// }
+// table, td, th {
+//   border:             2px solid black ;      /* Delete if no border needed */
+//   padding: 2px 8px 2px 8px;
+// }
+// header, h1, h3, h4, h5, h6 {
+//   margin-bottom: 22px;
+//   /* padding-left:        130px ; */
+// }
+// /* Forms and such, objects with id = 'query' */
+// #query, label {
+//   font-size: 12px;
+// }
+
+/* Buttons */
+/* .btn {
+  border-radius: 5px;
+  display: inline-block;
+  margin: 0;
+}
+.btn-alt {
+  border: 1px solid #dfe2e5;
+  padding: 10px 30px;
+} */

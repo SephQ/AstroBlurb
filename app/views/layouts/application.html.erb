@@ -7,9 +7,13 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%# if Rails.env.development? #removed 220423 after Hotwire failed on Windows %>
+      <%#= javascript_include_tag "hotwire-livereload", defer: true %>
+    <%# end %>
+    <%= javascript_importmap_tags %>
   </head>
 
-  <body class="body">
+  <body class="body bg-purple bg-gradient">
     <header>
       <%= render partial: "layouts/navbar" %>
     </header>

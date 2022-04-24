@@ -1,5 +1,6 @@
-<h1>Editing blurb</h1>
+<h1>Editing Blurb Generator</h1>
 
+<%= render "guidelines" %>  <%# Guidelines for writing a blurb %>
 <%= render "form", blurb: @blurb %>
 
 <br>
@@ -8,3 +9,8 @@
   <%= link_to "Show this blurb", @blurb %> |
   <%= link_to "Back to blurbs", blurbs_path %>
 </div>
+</br>
+  
+<p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+<p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+<p><%= link_to "Create Your Own Blurb Template", new_blurb_path(params.permit(*permitted_params)) %></p>

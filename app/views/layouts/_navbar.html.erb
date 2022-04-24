@@ -1,12 +1,12 @@
 <nav class="navbar navbar-dark navbar-static-top navbar-expand-md">
     <div class="container-boot">
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <span class='nav-inline'><%= link_to "Home", root_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)), class: 'nav-link' %></span>
-        <span class='nav-inline'><%= link_to 'Blurb', root_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)), class: 'nav-link' %></span>
-        <span class='nav-inline'><%= link_to 'Roast', roast_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)), class: 'nav-link' %></span>  
-        <span class='nav-inline'><%= link_to 'Reading', reading_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)), class: 'nav-link' %></span>
-        <span class='nav-inline'><%= link_to 'More Blurbs', blurbs_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)), class: 'nav-link' %></span>
-        <span class='nav-inline'><%= link_to 'Create Your Own', new_blurb_path(params.permit(:rising, :birth_time, :time_zone, :birth_city, :commit)), class: 'nav-link' %></span>
+        <span class='nav-inline'><%= link_to 'Home', root_path(params.permit(*permitted_params)), class: 'nav-link' %></span>
+        <%# <span class='nav-inline'><%= link_to "Blurb", root_path(params.permit(*permitted_params)), class: 'nav-link' % ></span> %>
+        <span class='nav-inline'><%= link_to 'Roast', roast_path(params.permit(*permitted_params)), class: 'nav-link' %></span>  
+        <span class='nav-inline'><%= link_to 'Reading', reading_path(params.permit(*permitted_params)), class: 'nav-link' %></span>
+        <span class='nav-inline'><%= link_to 'More Blurbs', blurbs_path(params.permit(*permitted_params)), class: 'nav-link' %></span>
+        <span class='nav-inline'><%= link_to 'Create Your Own', new_blurb_path(params.permit(*permitted_params)), class: 'nav-link' %></span>
       </div>
     </div>
 </nav>

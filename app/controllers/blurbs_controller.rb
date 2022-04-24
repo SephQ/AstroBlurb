@@ -4,6 +4,10 @@ class BlurbsController < ApplicationController
   # GET /blurbs or /blurbs.json
   def index
     @blurbs = Blurb.all
+    if params[:commit]
+      load_params
+      @commit = true
+    end
   end
 
   # GET /blurbs/1 or /blurbs/1.json
@@ -14,10 +18,16 @@ class BlurbsController < ApplicationController
   # GET /blurbs/new
   def new
     @blurb = Blurb.new
+    if params[:format]
+      # User is creating a new version of an old blurb
+      # Prefill the title, blurb text and planet-sign replacements from the old article to begin (saves time)
+      @prefilled_blurb = Blurb.all.find(params[:format])
+    end
   end
 
   # GET /blurbs/1/edit
   def edit
+    @prefilled_blurb = Blurb.all.find(params[:id])  # Prefill the blurb with the current values
   end
 
   # POST /blurbs or /blurbs.json
@@ -67,6 +77,6 @@ class BlurbsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def blurb_params
-      params.require(:blurb).permit(:title, :text, :planet_replacements)
+      params.require(:blurb).permit(:id, :title, :text, :planet_replacements)
     end
 end

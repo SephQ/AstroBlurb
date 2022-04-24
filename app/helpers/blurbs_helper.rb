@@ -28,7 +28,7 @@ module BlurbsHelper
         end
         replacements.shift[ i ]       # Take the next row from the replacements list, take the correct phrase. Row is removed (shift).  
       }
-
+      fix_a_to_an(blurb)  # Fix phrases like "a adventurous" to "an adventurous" and return resulting text.
     else
       # Failsafe debugger to avoid a nil params input or the like
       "Error: you didn't click 'Blurb me!' - but you'll never see this because this function isn't called unless you do."
@@ -51,7 +51,12 @@ module BlurbsHelper
   #       planet = "OSCU_APOG"
   #     end
   #     "Swe4r::SE_" + planet          # Output the Swiss Ephemeris body name e.g. "SE_SUN"
-  # end      
+  # end
+  def fix_a_to_an(text)
+    # Look for places in text where a word starting with a vowel has been preceded by the word "a" incorrectly
+    # Replace these "a"s with "an"s instead. (Ignore silent h words, but maintain "a historic" style https://jakubmarian.com/list-of-words-with-a-silent-h-in-english/ )
+    text.gsub(/\ba\K (?=[aeiou]|hour|honest|honour|heir)/i,'n ')
+  end
   def example_title
     "Personality Blurb by zodiac--signs.tumblr.com"
   end

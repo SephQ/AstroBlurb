@@ -1,9 +1,18 @@
 <p style="color: green"><%= notice %></p>
+<%= render "birth_input" %>
+<%# ^^ Still have birth input form on this page so that we can have the option to view all the blurb generators 
+  in the index in the user-specific blurb form (saves the user clicking each blurb individually %>
 
-<h1>Blurbs</h1>
-
+<h1>Blurb Generators</h1>
+<% if @commit %>
+  <p class="small">Blurb templates below have been customised to your own astrology chart and generated a blurb for you.</p>
+<% else %>
+  <p class="small">Each blurb template below can be compared to your own astrology chart and generate a blurb for you.</p>
+<% end %>
+<%#<p class="small">Click 'Show this blurb' to test individually</p>%>
 <div id="blurbs">
   <% @blurbs.each do |blurb| %>
+    <hr>
     <%= render blurb %>
     <p>
       <%= link_to "Show this blurb", blurb %>

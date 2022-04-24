@@ -6,15 +6,25 @@
   <%= render @blurb %>
 <% else %>
   <%# If the user has committed their birth details, then show their blurb result for this blurb generator instead. %>
+  <p><strong>Your blurb:</strong></p>
   <%= render html: blurb_me( @blurb, params, @rising, @julday ) %>
-  <p>
+  <hr>
+  
+  <%= render @blurb %>
+  <%# <p>
     <strong>Planet replacements:</strong>
     <%= simple_format( @blurb.planet_replacements ) %>
-  </p>
+  <%#</p> %>
 <% end %>
 <div>
   <%= link_to "Edit this blurb", edit_blurb_path(@blurb) %> |
+  <%= link_to "Make your own version", new_blurb_path(@blurb) %> |
   <%= link_to "Back to blurbs", blurbs_path %>
 
   <%= button_to "Destroy this blurb", @blurb, method: :delete %>
 </div>
+</br>
+<p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+<p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
+<p><%= link_to "More Blurb Generators (User-created)", blurbs_path(params.permit(*permitted_params)) %></p>
+<p><%= link_to "Create Your Own Blurb Template", new_blurb_path(params.permit(*permitted_params)) %></p>

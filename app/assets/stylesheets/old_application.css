@@ -63,17 +63,21 @@ strong {
   font-weight: bold !important;
 }
 .small {
-  font-size: small !important;
+  font-size: 14px !important;
 }
 .smaller {
   font-size: smaller !important;
 }
 body {
-  background-color:   rgb(175, 143, 203) ;               /* Change pink */
+  background-color:   rgb(175, 143, 203) ;
+  /* background-color:   rgb(111, 110, 142) ;  /* zodiac--signs purple banner blurb part */
+  /* background-color:   rgb(188, 219, 229) ;  /* zodiac--signs teal text blurb part */
   color:              black;              /* Default Text Color */
   padding-bottom:     30px;
   margin-top:         30px ;
   margin-bottom:      30px ;
+  padding-left:       30px ;
+  padding-right:      30px ;
   /* border:             2px solid red ;      /* Delete if no border needed */
   /* Adjust sitewide (#5A5A5A) text color */    
   color:              black;
@@ -106,7 +110,8 @@ h1 {
   color: black;
   font-size: 36px;
   /* font-family: Luminari; */
-  background-color:   rgb(113, 90, 179) ;               /* Change pink */
+  background-color:   rgb(113, 90, 179) ;               /* Nice */
+  /*background-color:   rgb(111, 110, 142) ;  /* zodiac--signs purple banner blurb part */
   padding: 10px;
 }
 /* p {

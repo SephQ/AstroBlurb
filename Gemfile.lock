@@ -68,9 +68,15 @@ GEM
       tzinfo (~> 2.0)
     addressable (2.8.0)
       public_suffix (>= 2.0.2, < 5.0)
+    autoprefixer-rails (10.4.2.0)
+      execjs (~> 2)
     bindex (0.8.1)
     bootsnap (1.11.1)
       msgpack (~> 1.2)
+    bootstrap (5.1.3)
+      autoprefixer-rails (>= 9.1.0)
+      popper_js (>= 2.9.3, < 3)
+      sassc-rails (>= 2.0.0)
     builder (3.2.4)
     capybara (3.36.0)
       addressable
@@ -90,6 +96,8 @@ GEM
       reline (>= 0.2.7)
     digest (3.1.0)
     erubi (1.10.0)
+    execjs (2.8.1)
+    ffi (1.15.5-x64-mingw-ucrt)
     geocoder (1.7.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -133,6 +141,7 @@ GEM
     nokogiri (1.13.4-x64-mingw-ucrt)
       racc (~> 1.4)
     pg (1.3.5-x64-mingw-ucrt)
+    popper_js (2.9.3)
     public_suffix (4.0.7)
     puma (5.6.4)
       nio4r (~> 2.0)
@@ -173,6 +182,14 @@ GEM
     rexml (3.2.5)
     ruby-ephemeris (1.1.1)
     rubyzip (2.3.2)
+    sassc (2.4.0)
+      ffi (~> 1.9)
+    sassc-rails (2.1.2)
+      railties (>= 4.0.0)
+      sassc (>= 2.0)
+      sprockets (> 3.0)
+      sprockets-rails
+      tilt
     selenium-webdriver (4.1.0)
       childprocess (>= 0.5, < 5.0)
       rexml (~> 3.2, >= 3.2.5)
@@ -190,6 +207,7 @@ GEM
     strscan (3.0.1)
     swe4r (0.0.2)
     thor (1.2.1)
+    tilt (2.0.10)
     timeout (0.2.0)
     timezone (1.3.16)
     turbo-rails (1.0.1)
@@ -220,6 +238,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap
+  bootstrap (~> 5.1, >= 5.1.3)
   capybara
   chinese_zodiac (~> 0.0.1)
   debug
@@ -230,6 +249,7 @@ DEPENDENCIES
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.3)
   ruby-ephemeris (~> 1.1, >= 1.1.1)
+  sassc-rails
   selenium-webdriver
   sprockets-rails
   sqlite3 (~> 1.4)
