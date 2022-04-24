@@ -94,6 +94,7 @@ module PagesHelper
   end
   def swe_calc_house(julian_day, planet)
     # Calculate the house position of an input planet for the given birth time. 1 = in the 1st house, 12 = in the 12th house
+    # p "swe_calc_house(#{[julian_day, planet]})"
     lon2house( swe_calc_ut(julian_day, planet)[0] )
   end
   def julday(date)

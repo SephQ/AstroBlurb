@@ -7,7 +7,7 @@
 <% else %>
   <%# If the user has committed their birth details, then show their blurb result for this blurb generator instead. %>
   <p><strong>Your blurb:</strong></p>
-  <%= render html: blurb_me( @blurb, params, @rising, @julday ) %>
+  <p class="h4"><%= render html: blurb_me( @blurb, params, @rising, @julday ) %></p>
   <hr>
   
   <%= render @blurb %>

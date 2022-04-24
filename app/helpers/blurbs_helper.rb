@@ -7,9 +7,10 @@ module BlurbsHelper
       text = blurb.text.gsub(/@(ascendant|asc)\b/i,'@rising')   # Grab the blurb text and make sure @rising tags are correct
       planets = text.scan(/@\w+/)
       replacements = blurb.planet_replacements.dup  # Make a duplicate of the replacements to be edited into an array
-      if replacements =~ /^\[.+\]\*\d+$/
+      if replacements =~ /^\[.+?\]\*\d+$/m
         # If the user has a row of the form [row text]*n then repeat that row text n times as repeated rows
-        replacements.gsub!( /^\[(.+)\]\*(\d+)$/ ){ "#{$1}\n" * $2.to_i }
+        replacements.gsub!( /^\[(.+?)\]\*(\d+)$/m ){ "#{$1}\n" * $2.to_i }
+        p replacements
       end
       replacements = replacements.split(/[\n\r]+/).map{|row| row.split(/[,、]\s*/) }  # Split replacements into an array of arrays (row-separated, then comma-separated within each row)
       p replacements
@@ -26,8 +27,9 @@ module BlurbsHelper
         if name == "rising"
           i = sign2num( rising )
           p "BlurbsHelper: HEY!!! name=#{name}, sign=#{rising}, i=#{i}, jd = #{julday.inspect.to_s}"
-        elsif name[/_house/]
+        elsif name =~ /_house/
           # If the name is of form @[planet]_house then it's not a sign-based reading, it's house-based
+          name = name.gsub(/_house/,'')   # Remove the _house suffix
           i = swe_calc_house( julday, name ) - 1  # Calculate 1-based house and then shift to 0-based index
         else
           sign = swe_calc_sign( julday, name )
