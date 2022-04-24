@@ -1,0 +1,10 @@
+<%= simple_format( "houses for sun-pluto: #{ planetlist.map{|i| "#{i}: #{ swe_calc_house( @julday, i ) }" }*"\n" }" ) %>
+<hr>
+<%= simple_format( "houses: #{ @houses.inspect }" ) %>
+<hr>
+<%= simple_format( "houses: #{ @houses.map{|i| lon2house(i - 1.49) } }" ) %>
+<hr>
+<%= simple_format( [params.to_enum.to_h, @date_search, @rising, @commit, @birth_city,
+  @lat, @long, @time_zone, @julday, ['lat,long,,swesettop',@lat,@long], swe_houses(@julday,@lat, @long),
+  'request ip, remote, GEOCODER DATA ->', [request.ip, request.remote_ip],[Geocoder.search(request.ip),Geocoder.search(request.remote_ip)],
+  Geocoder.search(@birth_city) ].map(&:inspect)*"\n" ) %>

@@ -89,7 +89,12 @@ module PagesHelper
     Swe4r::swe_calc_ut(julian_day, swe_name(planet), Swe4r::SEFLG_SWIEPH)#|Swe4r::SEFLG_TOPOCTR - Swe4r::SEFLG_MOSEPH instead of SEFLG_SWIEPH
   end
   def swe_calc_sign(julian_day, planet)
+    # Calculate the sign position of an input planet for the given birth time.
     lon2sign( swe_calc_ut(julian_day, planet)[0] )
+  end
+  def swe_calc_house(julian_day, planet)
+    # Calculate the house position of an input planet for the given birth time. 1 = in the 1st house, 12 = in the 12th house
+    lon2house( swe_calc_ut(julian_day, planet)[0] )
   end
   def julday(date)
     y, m, d = date.split(/[-\/]/)
@@ -144,10 +149,28 @@ module PagesHelper
     end
     return [pdata, pstrings, psigns]
   end
-  def copyright(uri)
+  def trim_link(uri)
+    # Links with the https:// removed from the text but kept in link
     short_link = uri[/https?:(?!.*:)\S+$/]
-    "Copyright © #{short_link} - Read more at #{uri}"
-    link_to("Copyright © #{short_link}", uri)
+    #"Copyright © #{short_link} - Read more at #{uri}"
+    link_to("#{short_link}", uri)
+  end
+  def lon2house(lon)
+    # Compare a planetary body's longitude to the house cusps of the user and determine in which house the planet resides
+    # Use an offset to shift the planet into the next house if it's within this small offset of the next house
+    offset = 1.5    # If a planet is within 1.5 degrees of the next house, consider it in that house
+    lon = ( lon + offset ) % 360
+    unless @houses
+      # If @houses doesn't exist yet, then create it - correction : just throw an error. @houses should exist if load_params was run and user commited
+      flash[:notice] = "@houses doesn't exist yet, please commit your birth details"
+      return "@houses doesn't exist yet, please commit your birth details"
+    end
+    # Otherwise, we have @houses as a 13-element array of ecliptic longitudes for the 1st-12th-1st cusps (1st is repeated)
+    # Make array of pairs of adjacent house cusps, [ [1, 2], [2, 3],..., [12, 1] ]
+    house_edges = Array(@houses.each_cons(2))
+    # p lon, house_edges.find{|i,j| i <= lon && j > lon } || house_edges.find{|i,j| j < i }, house_edges.index( house_edges.find{|i,j| i < lon && j > lon } || house_edges.find{|i,j| j < i } ) + 1
+    # Output the 1-based index of the pair which EITHER contain the longitude in their range or if none are found then the pair that passes over the 360/0 transition (since that's the only pair possible if no pair is found by the first method)
+    house_edges.index( house_edges.find{|i,j| i <= lon && j > lon } || house_edges.find{|i,j| j < i } ) + 1
   end
   # def set_signs(psigns)
   #   # Define variables for the planet signs based on planet data

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get 'about', to: 'pages#about'
   get 'home', to: 'pages#home'
   get 'roast', to: 'pages#roast'
+  get 'debug', to: 'pages#debug'
   get 'reading', to: 'pages#reading'
   get "blurbs", to: "blurbs#index"
   get "index", to: "blurbs#index"

@@ -15,5 +15,10 @@ class PagesController < ApplicationController
     # Test your ability to recognize your own astrology reading from a false control.
     # Uses more obscure readings and doesn't tell you which planet is being tested (optional?).
   end
+  def debug
+    load_params
+    p params.to_enum.to_h
+    p swe_houses(@julday, @lat, @long)
+  end
   # Moved functions to application controller so blurbs_controller can use them too. i.e. 'load_params' etc
 end

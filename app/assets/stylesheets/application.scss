@@ -19,7 +19,7 @@
 
 // $zs-teal: rgb(188, 219, 229) ;
 // $zs-grey: rgb(102,102,102);
-$zs-purple: rgb(101, 99, 136); //112,110,141 -> 122,121,150 in output - so adjusting to get 112,110,141
+$zs-purple: rgb(112,110,141); //112,110,141 -> 122,121,150 in output - so adjusting to get 112,110,141
 $zs-teal: rgb(191, 232, 232) ;  // 197, 232, 232 is true. (188, 216, 222)->(194,216,222) in output
 $zs-grey: rgb(89,89,89);  // 102,102,102 but it compiles as 115,115,115 so I've reduced it
 $primary: $zs-purple;
@@ -67,9 +67,10 @@ header {
   // background-color: rgb(175, 143, 203);
 }
 .navbar-dark {
-  // background-color: rgb(100, 70, 130);
+  // background-color: rgb(112,110,141);
   // background-color: $dark;
-  background-color: $zs-purple;
+  // background-color: $zs-purple;
+  background-color: $zs-grey;
 }
 .nav-link {
   font-weight: bold;

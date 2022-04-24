@@ -4,7 +4,7 @@
   <%= render "blurbs/birth_input" %><%# Show the birth input form for user to provide birth details %>
  
   <%# Swe4r - Swiss Ephemeris for Ruby https://www.rubydoc.info/gems/swe4r %>
-  <% rising_lon = 0 %>
+  <% rising_lon = @rising_lon || 0 %>
   <% if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time] %>
     <%# User didn't know their rising sign but submitted a form, calculate it for them %>
     <% sun_lon = swe_calc_ut(@julday, 'Sun')[0] %>
@@ -18,11 +18,13 @@
     <% p pstrings.join(", ") %>
     <% rising_number = zodlist.index(@rising) %>
     </br>
-    <p class="blurb"><%= roast(pdata['moon'][0],pdata['sun'][0],pdata['venus'][0],pdata['mars'][0]) %></p>
+    <strong>Your roast:</strong>
+    <p class="blurb h4"><%= roast(pdata['moon'][0],pdata['sun'][0],pdata['venus'][0],pdata['mars'][0]) %></p>
   <% end %>
   
   <% if @commit %><%# Show planet positions if the user has submitted their birth data. %>
     <%#<p><%= "#{planet.capitalize} in #{lon2sign(lon)} (#{(lon%30).to_i}°#{(lon%1*60).round}')" !!sf-></p>%>
+    <strong>Your positions:</strong>
     <p><%= "Life path #{numerology(@date_search)}, lunar year of the #{ eastern(@date_search) }." %></p>
     <p><%= "#{@rising}-rising (#{(rising_lon%30).to_i}°#{(rising_lon%1*60).round}')" %></p>
     <p><%= pstrings.join(", ") %></p>

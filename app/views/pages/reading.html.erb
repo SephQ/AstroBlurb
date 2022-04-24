@@ -40,44 +40,44 @@
     <%# Primal Astrology %>
     <h3><%= "Western-Eastern combination (#{@sun}-#{ @lunar = eastern(@date_search) }):" %></h3>
     <p><%= @primal_desc[ primal_num = ( @sun_num = zodlist.index(@sun) )*12 + eastlist.index(@lunar) ] %></p>
-    <p><%= copyright("https://www.primalastrology.com/#{ @primal_names[ primal_num ].downcase.tr(' ','_') }.html") %></p>
+    <p>Copyright © <%= trim_link("https://www.primalastrology.com/#{ @primal_names[ primal_num ].downcase.tr(' ','_') }.html") %></p>
     </br>
     <%# Sun-Moon Combination %>
     <h3><%= "Sun-Moon combination (#{@sun}-#{@moon}):" %></h3>
     <p><%= @sun_moon_desc[ @sun_num * 12 + zodlist.index(@moon) ] %></p>
-    <p><%= copyright("http://www.astrology-numerology.com/sun-moon.html") %></p>
+    <p>Copyright © <%= trim_link("http://www.astrology-numerology.com/sun-moon.html") %></p>
     </br>
     <%# Rising %>
     <h3><%= "Rising sign (#{@rising}):" %></h3>
     <p><%= @rising_desc[ rising_number ] %></p>
-    <p><%= copyright("https://web.archive.org/web/20190401063426/https://theastrocodex.com/#{ @rising.downcase }-ascendant/") %></p>
+    <p>Copyright © <%= trim_link("https://web.archive.org/web/20190401063426/https://theastrocodex.com/#{ @rising.downcase }-ascendant/") %></p>
     </br>
     <%# Mars %>
     <h3><%= "Mars sign (#{@mars}):" %></h3>
     <p><%= @mars_desc[ zodlist.index(@mars) ] %></p>
-    <p><%= copyright("http://www.sexualastrology.com/planetmars.html") %></p>
+    <p>Copyright © <%= trim_link("http://www.sexualastrology.com/planetmars.html") %></p>
     </br>
     <%# Venus %>
     <h3><%= "Venus sign (#{@venus}):" %></h3>
     <p><%= @venus_desc[ zodlist.index(@venus) ] %></p>
-    <p><%= copyright("http://www.sexualastrology.com/planetvenus.html") %></p>
+    <p>Copyright © <%= trim_link("http://www.sexualastrology.com/planetvenus.html") %></p>
     </br>
     <%# North Node %>
     <h3><%= "North Node (#{@northnode = lon2sign( swe_calc_ut(@julday, 'MEAN_NODE')[0] )}):" %></h3>
     <% @northnode %>
     <p><%= @nn_desc[ zodlist.index(@northnode) ] %></p>
-    <p><%= copyright("http://astrologyclub.org/birth-chart-interpretations/north-node-in-signs/") %></p>
+    <p>Copyright © <%= trim_link("http://astrologyclub.org/birth-chart-interpretations/north-node-in-signs/") %></p>
     </br>
     <h3><%= "Pluto generation (#{@pluto}):" %></h3>
     <p><%= @pluto_desc[ pluto_num = zodlist.index(@pluto) ] %></p>
     <% pluto_url = pluto_num < 3 || pluto_num > 6 ?  "http://astrologyk.com/zodiac/planets/pluto/#{ zodlist[pluto_num] }" : 
         pluto_num < 5 ? "https://mysticlivingtoday.com/view_page.php?ID=1487" : "http://siderealist.com/pluto.html" %>
-    <p><%= copyright(pluto_url) %></p>
+    <p>Copyright © <%= trim_link(pluto_url) %></p>
     </br>
     <%# Numerology (Life Path) %>
     <h3><%= "Numerology (Life Path #{@lifepath = numerology( @date_search )}):" %></h3>
     <p><%= @numerology_desc[ numerology_index( @lifepath ) ] %></p>
-    <p><%= copyright("http://astrology-numerology.com/num-lifepath.html") %></p>
+    <p>Copyright © <%= trim_link("http://astrology-numerology.com/num-lifepath.html") %></p>
   <% end %>
   </br>
   </br>

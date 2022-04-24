@@ -29,10 +29,11 @@ class ApplicationController < ActionController::Base
     Swe4r::swe_set_ephe_path('lib')          # Initialize Swiss Ephemeris
     p ['lat,long,,swesettop',@lat,@long] #, Swe4r::swe_set_topo(@lat, @long, 100)
     Swe4r::swe_set_topo(@lat, @long, 100) # Set the topocentric location with 100 m altitude above sea level (planets positions relative to your location on the Earth surface)
-    if @rising == "Unknown" && params[:commit] #params[:time_zone] && params[:birth_time]
-      # User didn't know their rising sign but submitted a form, calculate it for them
+    if params[:commit] #params[:time_zone] && params[:birth_time]
+      # Rising sign and houses both need accurate birth times submitted, if so, calculate it for them
       @rising = rising_sign( @julday, @lat, @long )
-      p @julday, '<jd rsign>', @rising, swe_houses(@julday,@lat, @long)[1]
+      @houses = swe_houses(@julday,@lat, @long)[1..13]  # The house cusps, 1st house cusp appears twice at each end
+      p @julday, '<jd rsign> houses>', @rising, @houses
     end
   end
   def load_readings
@@ -48,17 +49,17 @@ class ApplicationController < ActionController::Base
     @nn_desc = File.read('app/lib/northnode.txt').split("\n")
   end
   def neutralise_him( himput )
-    # Translate gendered (he/him/his) language to gender neutral for readings (they/them/their).
+    # Translate gendered (he/him/his) language ('himput') to gender neutral (they/them/their) for readings.
+    # Follow grammar rules, including capitalisation of the 't'
     himput = himput.gsub(/\bhe is\b/i, '[they are]').gsub(/\bhe (\w+)(?<!s)s\b/i, '[they \1]').
       gsub(/\bhe\b/i, '[they]').gsub(/\bhis\b(?! )/i, '[theirs]').gsub(/\bhis\b/i, '[their]').gsub(/\bhim\b/i, '[them]')
-    # Fix any broken grammar rules, including capitalisation
     himput.gsub(/\. \[t/,'. [T')
   end
   def swe_houses(julian_day, lat, long, hsys='Placidus'[0].ord)
     Swe4r::swe_houses(julian_day, lat, long, hsys)
   end
   def rising_sign(julian_day, lat, long)
-    lon2sign( swe_houses(julian_day, lat, long)[1] )
+    lon2sign( @rising_lon = swe_houses(julian_day, lat, long)[1] )
   end
   def lon2sign(lon)
     # Convert ecliptic longitude values to zodiac signs
