@@ -40,7 +40,8 @@
     <p><%= "#{@rising}-rising (#{(rising_lon%30).to_i}°#{(rising_lon%1*60).round}')" %></p>
     <p><%= pstrings.join(", ") %></p>
   <% end %>
-  <p class="blurb"><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></p><%# Tumblr image that this blurb web app was inspired by - zodiac--signs.tumblr.com %>
+  <p>This blurb template is the creative property of <a href="https://zodiac--signs.tumblr.com">zodiac--signs.tumblr.com</a> (Crystal Leigh Melbourne), check them out!</p>
+  <p class="blurb"><a href="https://zodiac--signs.tumblr.com"><%= image_tag 'Personality Blurb Image by zodiac--signs.webp' %></a></p><%# Tumblr image that this blurb web app was inspired by - zodiac--signs.tumblr.com %>
   <p><%= link_to "Try Another One (Roast me!)", roast_path(params.permit(*permitted_params)) %></p>
   <p><%= link_to "Birth horoscope reading (Read me!)", reading_path(params.permit(*permitted_params)) %></p>
   <p><%= link_to "More Blurb Generators (User-created)", blurbs_path(params.permit(*permitted_params)) %></p>

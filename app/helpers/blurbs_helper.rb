@@ -6,7 +6,7 @@ module BlurbsHelper
       return "This blurb generator is broken." unless blurb.planet_replacements  # warning for bad blurbs that lack the right attributes
       text = blurb.text.gsub(/@(ascendant|asc)\b/i,'@rising')   # Grab the blurb text and make sure @rising tags are correct
       planets = text.scan(/@\w+/)
-      replacements = blurb.planet_replacements.split(/[\n\r]+/).map{|row| row.split(/,\s*/) }
+      replacements = blurb.planet_replacements.split(/[\n\r]+/).map{|row| row.split(/[,、]\s*/) }
       p replacements
       if replacements.size < planets.size
         return "Error: This blurb doesn't have enough replacement rows for the #{ planets.size } planets mentioned in the text. Someone should edit it to add #{ planets.size - replacements.size } more rows of phrases."

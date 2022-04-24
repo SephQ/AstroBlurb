@@ -2,7 +2,8 @@ class ApplicationController < ActionController::Base
   # Copied some functions to application controller so blurbs can use them too. ('lon2sign' etc), need to DRY it up later
   def load_params
     # Check if the user has submitted parameters for an astrology blurb, convert them into named variables if so.
-    @date_search = params[:birth_time] && params[:birth_time] != "" ? params[:birth_time] : "1980-09-22T23:54"
+    @date_search = params[:birth_time] && params[:birth_time] != "" ? params[:birth_time] : 
+      (Time.now-27.years).strftime("%Y-%m-%dT12:00") # e.g. "1994-04-24T12:00" (changes to match midday 28 years ago unless the user has submitted their birthday)
     @rising = params[:rising] ? params[:rising] : "Unknown"
     @commit = params[:commit] ? true : false
     @birth_city = params[:birth_city] ? params[:birth_city] : "Sydney, Australia"
