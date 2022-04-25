@@ -12,7 +12,7 @@ module BlurbsHelper
         replacements.gsub!( /^\[(.+?)\]\*(\d+)$/m ){ "#{$1}\n" * $2.to_i }
         p replacements
       end
-      replacements = replacements.split(/[\n\r]+/).map{|row| row.split(/[,、]\s*/) }  # Split replacements into an array of arrays (row-separated, then comma-separated within each row)
+      replacements = replacements.split(/[\n\r]+/).map{|row| row.split(/(?<!\\)[,、]\s*/).map{|i| i.gsub(/\\(?=[,、])/,'') } }  # Split replacements into an array of arrays (row-separated, then comma-separated within each row) - commas escaped with a backslash are ignored
       p replacements
       if replacements.size < planets.size
         return "Error: This blurb doesn't have enough replacement rows for the #{ planets.size } planets mentioned in the text. Someone should edit it to add #{ planets.size - replacements.size } more rows of phrases."

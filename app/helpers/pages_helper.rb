@@ -185,5 +185,14 @@ module PagesHelper
   #   # Define variables for the planet signs based on planet data
   #   @sun, @moon, @mercury, @venus, @mars, @jupiter, @saturn, @uranus, @neptune,
   #   @pluto = psigns
-  # end 
+  # end
+  def linkify(html, tag_class = "")
+    # Take input html with NO <a href="..."> links and add them to any bare uri's in the text.
+    # If a tag_class is specified then also amend any non-<a> tags with a class="#{class}" attribute
+    html.gsub!(/(?<!\>)http.*\/\/(?:www.)?([^\s<>]+)(?<!\/)\/?/,'<a href="\0">\1</a>')
+    # p html, html[/<(?!a)[^>\/]+(?=>)/]
+    html.gsub!(/<(?!a)[^>\/]+\K(?=>)/," class=\"#{tag_class}\"")
+    # p html
+    # html
+  end
 end
