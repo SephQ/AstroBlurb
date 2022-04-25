@@ -5,6 +5,11 @@
   </p>
   <% if @commit %>
     <%# If the user has committed their birth data, then generate output based on their signs for all blurbs %>
+    <% if @date_search[/(?<=T)..:../] == "12:00" && blurb.text[/@(rising|midheaven|ascendant|asc|MC|IC|\w+_house)/i] %>
+      <%# If the user's birth time is 12:00 (the default) and the blurb contains houses, warn them that a house-based reading won't work accurately if no true birth time is given.  %>
+      <p>
+        <strong style="background-color: #000000;color: red">Warning: your birth time is set as the default (12:00 PM) but this blurb needs an accurate birth time to be correct</strong></p>
+    <% end %>
     <p>
       <strong>Your Custom Blurb Output:</strong></p>
       <p class="h4"><%= render html: blurb_me( blurb, params, @rising, @julday ) %>

@@ -13,7 +13,7 @@
   <% if @prefilled_blurb %>
     <div>
       <%= form.label :title, style: "display: block" %>
-      <%= form.text_field :title, :placeholder => example_title, :value => @prefilled_blurb&.title || "" %>
+      <%= form.text_field :title, :placeholder => example_title, :size => "40", :value => @prefilled_blurb&.title || "" %>
     </div>
 
     <div>
@@ -29,7 +29,7 @@
   <% else %><%# No prefilled blurb, don't change values - important to allow errors to return your erroneous values %>
     <div>
       <%= form.label :title, style: "display: block" %>
-      <%= form.text_field :title, :placeholder => example_title %>
+      <%= form.text_field :title, :placeholder => example_title, :size => "40" %>
     </div>
 
     <div>

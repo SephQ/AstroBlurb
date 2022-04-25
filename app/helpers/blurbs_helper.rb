@@ -34,6 +34,12 @@ module BlurbsHelper
         elsif name == "eastern"
           # If the name is @eastern then it's not a zodiac-based reading, it's based on the Eastern lunar year
           i = eastlist.index( eastern( @date_search ) ) # Find the 0-based index of the user's Eastern year (Rat, Ox, ..., Pig)
+        elsif name =~ /midheaven|mc$/
+          # If the name is @midheaven or @MC then it's not a zodiac-based reading, it's the sign of the 10th house
+          i = lon2num(@houses[9]) # Find the 0-based zodiac index of the user's 1-based 10th house (9 in 0-based house index)
+        elsif name =~ /imum_?coeli|ic$/
+          # If the name is @imum_coeli or @IC then it's not a zodiac-based reading, it's the sign of the 4th house
+          i = lon2num(@houses[3]) # Find the 0-based zodiac index of the user's 1-based 4th house (3 in 0-based house index)
         elsif name =~ /^(lifepath|life_path)/
           # If the name is @lifepath or @life_path it's not a sign-based reading, it's numerology based (9 options - master numbers reduced currently)
           date = @date_search   # Use the @date_search instance variable to get the date in user's local time.

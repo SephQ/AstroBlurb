@@ -115,8 +115,16 @@ module PagesHelper
   def swe_houses(julian_day, lat, long, hsys='Placidus'[0].ord)
     Swe4r::swe_houses(julian_day, lat, long, hsys)
   end
+  def house_sign(house, julian_day, lat, long)
+    # Find the sign position of the house-cusp (house is integer 1-12)
+    # Note: since @houses exists after 'load_params', there is no need to recalculate this each time... need to re-optimize
+    lon2sign( swe_houses(julian_day, lat, long)[ house ] )
+  end
   def rising_sign(julian_day, lat, long)
-    lon2sign( swe_houses(julian_day, lat, long)[1] )
+    house_sign(1, julian_day, lat, long)
+  end
+  def midheaven_sign(julian_day, lat, long)
+    house_sign(10, julian_day, lat, long)
   end
   def eastern(date)
     ChineseZodiac.animal_sign(date.to_date)

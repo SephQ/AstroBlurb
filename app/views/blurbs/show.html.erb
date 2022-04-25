@@ -21,7 +21,7 @@
   <%= link_to "Make your own version", new_blurb_path(@blurb) %> |
   <%= link_to "Back to blurbs", blurbs_path %>
 
-  <%= button_to "Destroy this blurb", @blurb, method: :delete %>
+  <%#= button_to "Destroy this blurb", @blurb, method: :delete %>
 </div>
 </br>
 <p><%= link_to "Back to Home (Blurb me!)", root_path(params.permit(:rising, :birth_time, :time_zone, :commit)) %></p>
