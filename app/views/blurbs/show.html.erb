@@ -8,7 +8,9 @@
   <%# If the user has committed their birth details, then show their blurb result for this blurb generator instead. %>
   <p><strong>Your blurb:</strong></p>
   <%# <p class="h4"><%= render html: blurb_me( @blurb, params, @rising, @julday ) % ></p> %>
-  <p class="h4"><%= simple_format( blurb_me( @blurb, params, @rising, @julday ) ) %></p>
+  <%# <p class="h4"> %>
+  <%= sanitize linkify( simple_format( blurb_me( @blurb, params, @rising, @julday ) ), "h4" ) %>
+  <%# </p> %>
   <hr>
   
   <%= render @blurb %>
