@@ -1,1 +1,5 @@
-# Don't know how to make this yet 220425
+# Don't know how to make this yet 220425 https://docs.cpanel.net/knowledge-base/web-services/guide-to-git-deployment/
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/
