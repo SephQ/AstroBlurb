@@ -13,7 +13,7 @@
     <p>
       <strong>Your Custom Blurb Output:</strong></p>
       <%# <p class="h4"><%= render html: blurb_me( blurb, params, @rising, @julday ) %>
-      <% p linkify( simple_format( blurb_me( blurb, params, @rising, @julday )), "h4"  ) %>
+      <%# p linkify( simple_format( blurb_me( blurb, params, @rising, @julday )), "h4"  ) %>
       <%# <p class="h4"> # not needed now, because linkify + simple_format gives <p class="h4"> tags to each paragraph %>
       <%= sanitize linkify( simple_format( blurb_me( blurb, params, @rising, @julday )), "h4"  ) %>
     <%# </p> %>
@@ -21,8 +21,8 @@
 
   <p>
     <strong>Blurb template:</strong>
-    <% p linkify( simple_format( blurb.text ), "h4" )  %>
-    <%= sanitize linkify( simple_format( blurb.text ), "h4" ) %><%# https://apidock.com/rails/v4.1.8/ActionView/Helpers/TextHelper/simple_format %>
+    <%# p linkify( simple_format( blurb.text ), "h4" )  %>
+    <%= sanitize linkify( simple_format( blurb.text ) ) %><%# https://apidock.com/rails/v4.1.8/ActionView/Helpers/TextHelper/simple_format %>
   </p>
 
   <p>
