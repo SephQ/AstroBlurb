@@ -16,18 +16,20 @@
       <% p linkify( simple_format( blurb_me( blurb, params, @rising, @julday )), "h4"  ) %>
       <%# <p class="h4"> # not needed now, because linkify + simple_format gives <p class="h4"> tags to each paragraph %>
       <%= sanitize linkify( simple_format( blurb_me( blurb, params, @rising, @julday )), "h4"  ) %>
-    <%# </p> %>
+      <%= social_share_button_tag(blurb.title) %>
+      <%# </p> %>
   <% end %>
-
-  <p>
-    <strong>Blurb template:</strong>
-    <% p linkify( simple_format( blurb.text ), "h4" )  %>
-    <%= sanitize linkify( simple_format( blurb.text ), "h4" ) %><%# https://apidock.com/rails/v4.1.8/ActionView/Helpers/TextHelper/simple_format %>
-  </p>
-
-  <p>
-    <strong>Sign replacements (12 per planet in order Aries, ..., Pisces):</strong>
-    <%= simple_format( blurb.planet_replacements ) %><%# https://apidock.com/rails/v4.1.8/ActionView/Helpers/TextHelper/simple_format %>
-  </p>
-
+  <% if !@commit || @commit && !current_page?(:controller => 'blurbs') %><%# Don't show template style stuff if the user has input their birth data on blurbs page %>
+    <p>
+      <strong>Blurb template:</strong>
+      <% p linkify( simple_format( blurb.text ), "h4" )  %>
+      <%= sanitize linkify( simple_format( blurb.text ), "h4" ) %><%# https://apidock.com/rails/v4.1.8/ActionView/Helpers/TextHelper/simple_format %>
+    </p>
+  <% end %>
+  <% if !@commit %><%# Only show replacements if you didn't hit commit %>
+    <p>
+      <strong>Sign replacements (12 per planet in order Aries, ..., Pisces):</strong>
+      <%= simple_format( blurb.planet_replacements ) %><%# https://apidock.com/rails/v4.1.8/ActionView/Helpers/TextHelper/simple_format %>
+    </p>
+  <% end %>
 </div>
