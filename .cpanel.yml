@@ -1,8 +1,9 @@
 # Don't know how to make this yet 220425 https://docs.cpanel.net/knowledge-base/web-services/guide-to-git-deployment/
 # https://forums.cpanel.net/threads/the-system-cannot-deploy-error-from-git-repo.646041/
 # https://stackoverflow.com/questions/52688981/issues-with-the-format-of-cpanel-yml-file-when-trying-to-deploy-cpanel-git-repo
+# The below was accepted, but the deployment didn't work, removing tasks
 ---
 deployment:
-  tasks:
-    - export DEPLOYPATH=/home/beyondbi/public_html/AstroBlurb
-    - /bin/cp -R /home/beyondbi/repositories/AstroBlurb/* $DEPLOYPATH
+ tasks:
+#    - export DEPLOYPATH=/home/beyondbi/public_html/AstroBlurb
+#    - /bin/cp -R /home/beyondbi/repositories/AstroBlurb/* $DEPLOYPATH

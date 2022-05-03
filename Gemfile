@@ -70,6 +70,9 @@ gem 'timezone', '~> 1.0'
 gem 'sassc-rails' # 220424 Enabled for Bootstrap https://dev.to/coorasse/rails-7-bootstrap-5-and-importmaps-without-nodejs-4g8
 gem 'bootstrap', '~> 5.1', '>= 5.1.3'
 
+# Social sharing (SF 220429 added) https://stackoverflow.com/questions/60306020/how-to-implement-the-social-sharing-in-rails-app
+gem 'social-share-button', '~> 1.2', '>= 1.2.4'
+
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 

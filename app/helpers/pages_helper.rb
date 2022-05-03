@@ -30,14 +30,16 @@ module PagesHelper
   end
   def roast(moon,sun,venus,mars)
     # Inputs are the ecliptic longitude values of each of the named planetary bodies
-    text = "You're just a@@ @@ that feels like it's a@@ @@."
+    # text = "You're just a@@ @@ who feels like they're a@@ @@."
+    text = "You're just a @moon @sun who acts like they're a @venus @mars."
     plist = [lon2num(moon),lon2num(sun),lon2num(venus),lon2num(mars)]
-    wlist = [ [' hyperactive',' relentless',' talkative',' loving',' dramatic',' dedicated',' charming','n intense','n adventurous',' hard-working','n erratic','n easy-going'],
-      ['ram','bull','bee','hermit crab','lion','lamb','human','scorpion','stallion','goat','alien','carp'],
-      [' passionate',' dependable',' popular','n empathic',' famous','n innocent',' posh',' pioneering',' ',' successful',' revolutionary',' tortured'],
-      ['hero','bull','comedian','child','celebrity','martyr','expert','detective','philosopher','CEO','prophet','healer'] ]
+    wlist = [ %w[hyperactive relentless talkative loving dramatic dedicated charming intense adventurous ambitious erratic easy-going], 
+      %w[clown sloth chatter-box hermit-crab drama queen buzz-kill fence-sitter edge-lord dilettante workaholic weirdo tadpole], 
+      %w[passionate dependable popular empathic famous innocent posh pioneering global successful revolutionary tortured], 
+      %w[hero bull comedian child celebrity martyr expert detective philosopher CEO prophet healer] ]
+    p wlist.map{_1.size}
     words = plist.zip(wlist).map{|i,j| j[i] }
-    out = text.gsub(/@@/){ words.shift }   # Replace each '@@' in the text with the words from the word list in order.
+    out = text.gsub(/@\w+/){ words.shift }   # Replace each '@@' in the text with the words from the word list in order.
     out.gsub(/(?<= a)(?= [aeiou])/,'n')
   end
   def zodlist
